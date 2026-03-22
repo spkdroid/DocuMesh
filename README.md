@@ -1,20 +1,31 @@
 <p align="center">
-  <img src="web/public/docmesh.svg" alt="DocMesh" width="80" />
+  <img src="web/public/docmesh.svg" alt="DocMesh" width="100" />
 </p>
 
 <h1 align="center">DocMesh</h1>
 
 <p align="center">
-  <strong>Open-source Component Content Management System (CCMS)</strong><br/>
-  Create, manage, and deliver structured knowledge via APIs.
+  <strong>The open-source Component Content Management System</strong><br/>
+  Structure. Reuse. Publish. Deliver — at scale.
+</p>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white" alt="TypeScript" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/NestJS-10-E0234E?logo=nestjs&logoColor=white" alt="NestJS" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white" alt="Docker" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg" alt="PRs Welcome" /></a>
 </p>
 
 <p align="center">
   <a href="#quick-start">Quick Start</a> &middot;
-  <a href="#features">Features</a> &middot;
-  <a href="#api-reference">API</a> &middot;
+  <a href="#highlights">Highlights</a> &middot;
+  <a href="#everything-we-built">Features</a> &middot;
   <a href="#architecture">Architecture</a> &middot;
-  <a href="#roadmap">Roadmap</a> &middot;
+  <a href="#api-reference">API</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
   <a href="#contributing">Contributing</a>
 </p>
 
@@ -22,25 +33,27 @@
 
 ## What is DocMesh?
 
-DocMesh is an open-source CCMS built for developers and product teams. It breaks documentation into **reusable, structured components** and delivers them through a REST API — making it the backbone for in-app help systems, developer docs, customer support portals, and any application that needs dynamic content delivery.
+**DocMesh** is an open-source CCMS (Component Content Management System) built for developers, technical writers, and product teams. It breaks documentation into **reusable, structured DITA components** and delivers them through a REST API — making it the backbone for in-app help systems, developer docs, customer support portals, knowledge bases, and any application that needs dynamic, multi-channel content delivery.
 
-Inspired by enterprise systems like SDL Knowledge Center (Tridion Docs), DocMesh brings the same structured authoring and multi-channel delivery model to an open, modern stack.
+Inspired by enterprise systems like SDL Tridion Docs, IXIASOFT CCMS, and Paligo — DocMesh brings the same structured authoring, content reuse, and multi-channel publishing model to an **open, modern, API-first stack**.
+
+> **77 features** across 8 modules. One `docker compose up` to run everything.
 
 ---
 
-## Features
+## Highlights
 
-| | Feature | Description |
-|---|---|---|
-| **Structured Authoring** | Component content model | Topics, tasks, references, notes, and warnings as first-class content types |
-| **Rich Editor** | TipTap block editor | WYSIWYG editing with headings, lists, quotes, code blocks, and more |
-| **API-First Delivery** | REST API | Fetch published content by slug with locale and platform filtering |
-| **Versioning** | Automatic version history | Every save creates a new version with full body snapshot |
-| **Multi-Tenant** | Organization scoping | Complete data isolation per organization |
-| **Publications** | Hierarchical content trees | Organize content into publications with ordered, nested entries |
-| **Authentication** | JWT + bcrypt | Secure registration, login, and role-based token payload |
-| **Swagger Docs** | OpenAPI 3.1 | Auto-generated interactive API documentation at `/api/docs` |
-| **Dockerized** | Single command setup | Full stack runs via `docker compose up` |
+- **🏗️ Full DITA Content Model** — Topics, tasks, concepts, references, glossary entries, and troubleshooting as first-class types with prolog, shortdesc, body sections, and related links
+- **♻️ True Content Reuse** — conref, conkeyref, key maps, variables, content fragments, where-used tracking, and dependency graph analysis
+- **📚 DITA Maps & Publishing** — Hierarchical maps, bookmaps, nested maps, DITAVAL conditional profiling, and multi-format output (HTML5, PDF, JSON)
+- **🔀 Branching & Versioning** — Content branches, diff engine, three-way merge with conflict detection, baselines, releases, and rollback
+- **📝 Review Workflows** — Configurable state-machine workflows, reviewer assignment, inline comments, approval gates, audit trail, and notifications
+- **🌍 Localization & Translation** — Multi-locale with fallback chains, XLIFF import/export, translation jobs, TMS integration, and source change detection
+- **🔐 Enterprise Access Control** — RBAC, user groups, folder-level permissions, API key management with scoped access
+- **🏷️ Taxonomy & Search** — Hierarchical taxonomy terms, content tagging, PostgreSQL full-text search, and faceted filtering
+- **🔗 Integrations & Automation** — Webhooks with HMAC signing, event logging, asset management, content comparison, batch operations, and soft delete with trash
+- **✏️ Rich Block Editor** — TipTap/ProseMirror with tables, highlights, sub/superscript, placeholders, and structured authoring extensions
+- **🐳 One-Command Deploy** — Full stack (PostgreSQL, Redis, NestJS, React + Nginx) via Docker Compose
 
 ---
 
