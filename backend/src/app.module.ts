@@ -8,6 +8,7 @@ import { OrganizationsModule } from './organizations/organizations.module';
 import { ContentModule } from './content/content.module';
 import { PublicationsModule } from './publications/publications.module';
 import { DeliveryModule } from './delivery/delivery.module';
+import { ReuseModule } from './reuse/reuse.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DeliveryModule } from './delivery/delivery.module';
     ContentModule,
     PublicationsModule,
     DeliveryModule,
+    ReuseModule,
   ],
 })
 export class AppModule {}
