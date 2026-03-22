@@ -12,6 +12,7 @@ import { ReuseModule } from './reuse/reuse.module';
 import { MapsModule } from './maps/maps.module';
 import { VersioningModule } from './versioning/versioning.module';
 import { WorkflowsModule } from './workflows/workflows.module';
+import { LocalizationModule } from './localization/localization.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { WorkflowsModule } from './workflows/workflows.module';
     MapsModule,
     VersioningModule,
     WorkflowsModule,
+    LocalizationModule,
   ],
 })
 export class AppModule {}
