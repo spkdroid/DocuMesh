@@ -6,7 +6,7 @@ export default () => ({
     username: process.env.DB_USERNAME || 'docmesh',
     password: process.env.DB_PASSWORD || 'docmesh_secret',
     name: process.env.DB_NAME || 'docmesh',
-    synchronize: process.env.NODE_ENV !== 'production',
+    synchronize: process.env.DB_SYNC !== 'false',
   },
   jwt: {
     secret: process.env.JWT_SECRET || 'dev-secret-change-me',

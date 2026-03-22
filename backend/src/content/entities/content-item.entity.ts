@@ -11,13 +11,16 @@ import {
 } from 'typeorm';
 import { Organization } from '../../organizations/entities/organization.entity';
 import { ContentVersion } from './content-version.entity';
+import { RelatedLink } from './related-link.entity';
+import { TaskStep } from './task-step.entity';
 
 export enum ContentType {
   TOPIC = 'topic',
+  CONCEPT = 'concept',
   TASK = 'task',
   REFERENCE = 'reference',
-  NOTE = 'note',
-  WARNING = 'warning',
+  GLOSSARY = 'glossary',
+  TROUBLESHOOTING = 'troubleshooting',
 }
 
 export enum ContentStatus {
@@ -49,11 +52,17 @@ export class ContentItem {
   @Column({ length: 500 })
   title: string;
 
+  @Column({ name: 'short_description', length: 1000, default: '' })
+  shortDescription: string;
+
   @Column({ type: 'jsonb', default: {} })
   body: Record<string, unknown>;
 
   @Column({ type: 'jsonb', default: {} })
   metadata: Record<string, unknown>;
+
+  @Column({ type: 'jsonb', name: 'prolog', default: {} })
+  prolog: Record<string, unknown>;
 
   @Column({ type: 'enum', enum: ContentStatus, default: ContentStatus.DRAFT })
   status: ContentStatus;
@@ -76,6 +85,12 @@ export class ContentItem {
 
   @OneToMany(() => ContentVersion, (version) => version.contentItem)
   versions: ContentVersion[];
+
+  @OneToMany(() => RelatedLink, (link) => link.sourceItem, { cascade: true })
+  relatedLinks: RelatedLink[];
+
+  @OneToMany(() => TaskStep, (step) => step.contentItem, { cascade: true })
+  steps: TaskStep[];
 
   @Column({ name: 'sort_order', default: 0 })
   sortOrder: number;

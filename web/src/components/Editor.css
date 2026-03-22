@@ -107,3 +107,57 @@
   border-radius: 3px;
   font-size: 0.9em;
 }
+
+/* Table styles */
+.editor-content .tiptap table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.6em 0;
+  overflow: hidden;
+}
+
+.editor-content .tiptap table td,
+.editor-content .tiptap table th {
+  border: 1px solid var(--color-border);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+  min-width: 80px;
+}
+
+.editor-content .tiptap table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.editor-content .tiptap table .selectedCell {
+  background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.1);
+}
+
+/* Heading H1 & H4 */
+.editor-content .tiptap h1 {
+  font-size: 1.8em;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.editor-content .tiptap h4 {
+  font-size: 1em;
+  font-weight: 600;
+  margin-top: 0.6em;
+  margin-bottom: 0.3em;
+}
+
+/* Highlight */
+.editor-content .tiptap mark {
+  background: #fef08a;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+/* Horizontal rule */
+.editor-content .tiptap hr {
+  border: none;
+  border-top: 2px solid var(--color-border);
+  margin: 1.5em 0;
+}

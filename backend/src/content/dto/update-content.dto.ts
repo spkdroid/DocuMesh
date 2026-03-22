@@ -4,15 +4,28 @@ import {
   IsOptional,
   IsString,
   IsInt,
+  IsArray,
+  ValidateNested,
 } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { ContentStatus } from '../entities/content-item.entity';
+import {
+  CreateTaskStepDto,
+  CreateRelatedLinkDto,
+  CreatePrologDto,
+} from './create-content.dto';
 
 export class UpdateContentDto {
   @ApiPropertyOptional({ example: 'Updated Title' })
   @IsOptional()
   @IsString()
   title?: string;
+
+  @ApiPropertyOptional({ example: 'Updated short description.' })
+  @IsOptional()
+  @IsString()
+  shortDescription?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -23,6 +36,12 @@ export class UpdateContentDto {
   @IsOptional()
   @IsObject()
   metadata?: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: CreatePrologDto })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => CreatePrologDto)
+  prolog?: CreatePrologDto;
 
   @ApiPropertyOptional({ enum: ContentStatus })
   @IsOptional()
@@ -43,4 +62,18 @@ export class UpdateContentDto {
   @IsOptional()
   @IsString()
   changeSummary?: string;
+
+  @ApiPropertyOptional({ type: [CreateTaskStepDto] })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateTaskStepDto)
+  steps?: CreateTaskStepDto[];
+
+  @ApiPropertyOptional({ type: [CreateRelatedLinkDto] })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateRelatedLinkDto)
+  relatedLinks?: CreateRelatedLinkDto[];
 }

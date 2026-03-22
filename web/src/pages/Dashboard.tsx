@@ -77,10 +77,11 @@ export default function Dashboard() {
         >
           <option value="">All types</option>
           <option value="topic">Topic</option>
+          <option value="concept">Concept</option>
           <option value="task">Task</option>
           <option value="reference">Reference</option>
-          <option value="note">Note</option>
-          <option value="warning">Warning</option>
+          <option value="glossary">Glossary</option>
+          <option value="troubleshooting">Troubleshooting</option>
         </select>
         <select
           value={statusFilter}

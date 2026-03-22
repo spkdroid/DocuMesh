@@ -28,8 +28,19 @@
 }
 
 .editor-meta .form-group input,
-.editor-meta .form-group select {
+.editor-meta .form-group select,
+.editor-meta .form-group textarea {
   width: 100%;
+}
+
+.editor-meta .form-group textarea {
+  resize: vertical;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
 }
 
 .meta-row {
@@ -40,4 +51,98 @@
 
 .meta-row .form-group {
   flex: 1;
+}
+
+/* Tabs */
+.editor-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: all 0.15s;
+}
+
+.tab-btn:hover {
+  color: var(--color-text);
+}
+
+.tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* Prolog editor */
+.prolog-editor {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.prolog-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.prolog-grid .form-group input {
+  width: 100%;
+}
+
+/* Steps editor */
+.steps-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  border-left: 3px solid var(--color-primary);
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.step-number {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-primary);
+}
+
+.step-card .form-group {
+  margin-bottom: 10px;
+}
+
+.step-card .form-group input,
+.step-card .form-group textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.step-card .form-group textarea {
+  resize: vertical;
 }
