@@ -13,6 +13,8 @@ import { MapsModule } from './maps/maps.module';
 import { VersioningModule } from './versioning/versioning.module';
 import { WorkflowsModule } from './workflows/workflows.module';
 import { LocalizationModule } from './localization/localization.module';
+import { AccessControlModule } from './access-control/access-control.module';
+import { TaxonomyModule } from './taxonomy/taxonomy.module';
 
 @Module({
   imports: [
@@ -44,6 +46,8 @@ import { LocalizationModule } from './localization/localization.module';
     VersioningModule,
     WorkflowsModule,
     LocalizationModule,
+    AccessControlModule,
+    TaxonomyModule,
   ],
 })
 export class AppModule {}
