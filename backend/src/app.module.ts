@@ -9,6 +9,7 @@ import { ContentModule } from './content/content.module';
 import { PublicationsModule } from './publications/publications.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { ReuseModule } from './reuse/reuse.module';
+import { MapsModule } from './maps/maps.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ReuseModule } from './reuse/reuse.module';
     PublicationsModule,
     DeliveryModule,
     ReuseModule,
+    MapsModule,
   ],
 })
 export class AppModule {}
