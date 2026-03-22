@@ -1,203 +1,328 @@
-# DocMesh
+<p align="center">
+  <img src="web/public/docmesh.svg" alt="DocMesh" width="80" />
+</p>
 
-> API-first, modular knowledge platform for modern applications.
+<h1 align="center">DocMesh</h1>
 
-DocMesh is an open-source Component Content Management System (CCMS) designed for developers and product teams to create, manage, and deliver structured knowledge across platforms.
+<p align="center">
+  <strong>Open-source Component Content Management System (CCMS)</strong><br/>
+  Create, manage, and deliver structured knowledge via APIs.
+</p>
 
-Unlike traditional documentation tools, DocMesh breaks content into reusable components and delivers it via APIs—making it ideal for web apps, mobile apps, and dynamic help systems.
-
----
-
-## ✨ Features
-
-* 🧩 **Modular Content**
-
-  * Break documentation into reusable components (topics, steps, notes)
-* 🔗 **Content Reuse**
-
-  * Reference and compose content blocks across multiple documents
-* 🌐 **API-First Delivery**
-
-  * Fetch content dynamically via REST/GraphQL APIs
-* 📱 **Multi-Platform Ready**
-
-  * Serve content to web, mobile, and backend systems
-* 🌍 **Localization Support (Planned)**
-
-  * Multi-language content with fallback strategies
-* 🔄 **Versioning (Planned)**
-
-  * Track changes and manage content lifecycle
-* 🔍 **Search (Planned)**
-
-  * Full-text and semantic search capabilities
+<p align="center">
+  <a href="#quick-start">Quick Start</a> &middot;
+  <a href="#features">Features</a> &middot;
+  <a href="#api-reference">API</a> &middot;
+  <a href="#architecture">Architecture</a> &middot;
+  <a href="#roadmap">Roadmap</a> &middot;
+  <a href="#contributing">Contributing</a>
+</p>
 
 ---
 
-## 🧠 Why DocMesh?
+## What is DocMesh?
 
-Traditional documentation systems:
+DocMesh is an open-source CCMS built for developers and product teams. It breaks documentation into **reusable, structured components** and delivers them through a REST API — making it the backbone for in-app help systems, developer docs, customer support portals, and any application that needs dynamic content delivery.
 
-* Store content as large documents
-* Are hard to reuse
-* Are not API-friendly
-
-DocMesh:
-
-* Treats content as structured data
-* Enables reuse across platforms
-* Is built for developers and modern apps
+Inspired by enterprise systems like SDL Knowledge Center (Tridion Docs), DocMesh brings the same structured authoring and multi-channel delivery model to an open, modern stack.
 
 ---
 
-## 🏗️ Architecture Overview
+## Features
 
-```
-                ┌───────────────┐
-                │  Web Editor   │
-                └──────┬────────┘
-                       │
-                ┌──────▼────────┐
-                │   Backend API │
-                │ (DocMesh Core)│
-                └──────┬────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        ▼              ▼              ▼
-   Web App        Mobile App      External APIs
-```
+| | Feature | Description |
+|---|---|---|
+| **Structured Authoring** | Component content model | Topics, tasks, references, notes, and warnings as first-class content types |
+| **Rich Editor** | TipTap block editor | WYSIWYG editing with headings, lists, quotes, code blocks, and more |
+| **API-First Delivery** | REST API | Fetch published content by slug with locale and platform filtering |
+| **Versioning** | Automatic version history | Every save creates a new version with full body snapshot |
+| **Multi-Tenant** | Organization scoping | Complete data isolation per organization |
+| **Publications** | Hierarchical content trees | Organize content into publications with ordered, nested entries |
+| **Authentication** | JWT + bcrypt | Secure registration, login, and role-based token payload |
+| **Swagger Docs** | OpenAPI 3.1 | Auto-generated interactive API documentation at `/api/docs` |
+| **Dockerized** | Single command setup | Full stack runs via `docker compose up` |
 
 ---
 
-## 📦 Example Content Model
-
-```json
-{
-  "id": "reset-password",
-  "type": "task",
-  "title": "Reset Password",
-  "steps": [
-    "Open the app",
-    "Tap on 'Forgot Password'",
-    "Enter your email address"
-  ],
-  "notes": [
-    "Ensure your email is registered"
-  ]
-}
-```
-
----
-
-## 🔌 API Example
-
-```
-GET /api/content/reset-password?lang=en&platform=mobile
-```
-
-Response:
-
-```json
-{
-  "title": "Reset Password",
-  "steps": [
-    "Open the app",
-    "Tap on 'Forgot Password'",
-    "Enter your email address"
-  ]
-}
-```
-
----
-
-## 🚀 Getting Started
+## Quick Start
 
 ### Prerequisites
 
-* Node.js / Java (depending on backend choice)
-* PostgreSQL (or any relational DB)
+- [Docker](https://docs.docker.com/get-docker/) and Docker Compose
+- (For local development) Node.js 20+, PostgreSQL 16
 
----
+### Option 1 — Docker (recommended)
 
-### 1. Clone the repo
+```bash
+git clone https://github.com/your-username/docmesh.git
+cd docmesh
 
+# Start all services (PostgreSQL, Redis, Backend, Frontend)
+docker compose up --build
 ```
+
+Once running:
+
+| Service | URL |
+|---|---|
+| **Web UI** | http://localhost:8080 |
+| **API** | http://localhost:3000/api |
+| **Swagger Docs** | http://localhost:3000/api/docs |
+
+### Option 2 — Local Development
+
+```bash
 git clone https://github.com/your-username/docmesh.git
 cd docmesh
 ```
 
----
+**Start the database:**
 
-### 2. Run backend
-
+```bash
+docker compose up postgres redis -d
 ```
-# Example (Node.js)
+
+**Start the backend:**
+
+```bash
+cd backend
 npm install
-npm run dev
+npm run start:dev
+# API available at http://localhost:3000/api
 ```
 
----
+**Start the frontend:**
 
-### 3. Run frontend (if applicable)
-
-```
+```bash
 cd web
 npm install
-npm start
+npm run dev
+# UI available at http://localhost:5173
 ```
 
 ---
 
-## 🛣️ Roadmap
+## Project Structure
 
-### Phase 1 (MVP)
-
-* [x] Basic content model
-* [x] CRUD APIs
-* [ ] Simple editor UI
-* [ ] JSON-based delivery
-
-### Phase 2
-
-* [ ] Content reuse (references)
-* [ ] Localization support
-* [ ] Role-based access
-
-### Phase 3
-
-* [ ] AI-assisted authoring
-* [ ] Smart recommendations
-* [ ] Mobile SDK (Android/iOS)
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome!
-
-* Fork the repo
-* Create a feature branch
-* Submit a pull request
+```
+docmesh/
+├── backend/                 # NestJS API server
+│   ├── src/
+│   │   ├── auth/            # Authentication (JWT, register, login)
+│   │   ├── content/         # Content CRUD, versioning
+│   │   ├── delivery/        # Public content delivery API
+│   │   ├── organizations/   # Multi-tenant org management
+│   │   ├── publications/    # Publication trees
+│   │   ├── users/           # User management
+│   │   └── common/          # Guards, decorators
+│   └── Dockerfile
+├── web/                     # React + TipTap frontend
+│   ├── src/
+│   │   ├── components/      # Editor, Layout
+│   │   ├── pages/           # Dashboard, ContentEditor, Login
+│   │   └── contexts/        # Auth context
+│   └── Dockerfile
+├── docker-compose.yml       # Full stack orchestration
+└── ARCHITECTURE_ROADMAP.md  # Architecture decision document
+```
 
 ---
 
-## 📜 License
+## Tech Stack
 
-MIT License
-
----
-
-## 💡 Vision
-
-DocMesh aims to become the **open-source standard for structured knowledge delivery**, powering:
-
-* In-app help systems
-* Developer documentation
-* Customer support platforms
-* AI-powered knowledge systems
+| Layer | Technology |
+|---|---|
+| Backend | **NestJS** (TypeScript) |
+| Database | **PostgreSQL 16** (JSONB for content bodies) |
+| ORM | **TypeORM** |
+| Auth | **Passport + JWT** |
+| Cache | **Redis** |
+| Frontend | **React 18 + TipTap** (ProseMirror-based editor) |
+| Build | **Vite** |
+| Containerization | **Docker + Docker Compose** |
 
 ---
 
-## ⭐ Support
+## API Reference
 
-If you like this project, give it a star ⭐ and share it with others!
+All authenticated endpoints require a `Bearer` token in the `Authorization` header.
+
+### Authentication
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| `POST` | `/api/auth/register` | Register user + org | No |
+| `POST` | `/api/auth/login` | Get access token | No |
+| `GET` | `/api/auth/profile` | Current user info | Yes |
+
+### Content
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| `GET` | `/api/content` | List items (filtered, paginated) | Yes |
+| `POST` | `/api/content` | Create content item | Yes |
+| `GET` | `/api/content/:id` | Get single item | Yes |
+| `PATCH` | `/api/content/:id` | Update item | Yes |
+| `DELETE` | `/api/content/:id` | Delete item | Yes |
+| `GET` | `/api/content/:id/versions` | Version history | Yes |
+
+### Publications
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| `GET` | `/api/publications` | List publications | Yes |
+| `POST` | `/api/publications` | Create publication | Yes |
+| `GET` | `/api/publications/:id` | Get with content tree | Yes |
+| `DELETE` | `/api/publications/:id` | Delete publication | Yes |
+| `POST` | `/api/publications/:id/entries` | Add entry | Yes |
+| `DELETE` | `/api/publications/:id/entries/:eid` | Remove entry | Yes |
+
+### Delivery (Public)
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| `GET` | `/api/deliver/:slug?lang=en&platform=web` | Fetch published content | No |
+
+> Full interactive documentation available at `/api/docs` (Swagger UI).
+
+---
+
+## Content Model
+
+DocMesh stores content as structured components:
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "slug": "reset-password",
+  "type": "task",
+  "title": "Reset Password",
+  "body": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [{ "type": "text", "text": "Open the app and tap Forgot Password." }]
+      }
+    ]
+  },
+  "metadata": { "audience": "end-user", "platform": ["web", "mobile"] },
+  "status": "published",
+  "locale": "en"
+}
+```
+
+**Content types:** `topic` · `task` · `reference` · `note` · `warning`
+
+**Statuses:** `draft` → `in_review` → `published` → `archived`
+
+---
+
+## Architecture
+
+```
+┌─────────────────────┐       ┌─────────────────────┐
+│   React + TipTap    │       │  Consumer Apps       │
+│   (Web Editor)      │       │  (Web/Mobile/API)    │
+└─────────┬───────────┘       └───────────┬──────────┘
+          │                               │
+          ▼                               ▼
+┌─────────────────────────────────────────────────────┐
+│                  NestJS Backend API                  │
+│                                                     │
+│  Auth · Content · Publications · Delivery · Search  │
+└──────────────────────┬──────────────────────────────┘
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+    PostgreSQL      Redis        S3/MinIO
+   (Content DB)   (Cache)    (Files — planned)
+```
+
+For a detailed architecture comparison and roadmap, see [ARCHITECTURE_ROADMAP.md](ARCHITECTURE_ROADMAP.md).
+
+---
+
+## Environment Variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `DB_HOST` | `localhost` | PostgreSQL host |
+| `DB_PORT` | `5432` | PostgreSQL port |
+| `DB_USERNAME` | `docmesh` | Database user |
+| `DB_PASSWORD` | `docmesh_secret` | Database password |
+| `DB_NAME` | `docmesh` | Database name |
+| `JWT_SECRET` | `dev-secret-change-me` | **Change in production** |
+| `JWT_EXPIRATION` | `7d` | Token expiry |
+| `REDIS_HOST` | `localhost` | Redis host |
+| `REDIS_PORT` | `6379` | Redis port |
+| `PORT` | `3000` | Backend listening port |
+
+---
+
+## Roadmap
+
+### Phase 1 — Foundation (current)
+
+- [x] Structured content model (topics, tasks, references, notes, warnings)
+- [x] Content CRUD with REST API
+- [x] Automatic version history
+- [x] JWT authentication with org scoping
+- [x] TipTap rich text editor
+- [x] Content delivery API (public)
+- [x] Publications with hierarchical entries
+- [x] Swagger/OpenAPI documentation
+- [x] Docker Compose deployment
+
+### Phase 2 — Reuse & Collaboration
+
+- [ ] Content references and transclusion (conref)
+- [ ] "Where used" tracking
+- [ ] Conditional publishing (audience, platform filtering)
+- [ ] Role-based access control (Admin, Author, Reviewer, Viewer)
+- [ ] Taxonomy and custom metadata schemas
+- [ ] Full-text search (PostgreSQL)
+
+### Phase 3 — Workflows & Localization
+
+- [ ] Configurable review/approval workflows
+- [ ] Multi-locale content with fallback chains
+- [ ] Webhooks for external integrations
+- [ ] PDF export from publications
+- [ ] Content analytics and reuse dashboard
+
+### Phase 4 — Intelligence & Scale
+
+- [ ] AI-assisted authoring and suggestions
+- [ ] Semantic search (vector / embeddings)
+- [ ] Real-time collaborative editing (Yjs + CRDTs)
+- [ ] Mobile SDKs (iOS / Android)
+- [ ] DITA import/export
+- [ ] Plugin / extension system
+
+---
+
+## Contributing
+
+Contributions are welcome and appreciated.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -m 'Add my feature'`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Open a Pull Request
+
+Please ensure your code passes linting and existing tests before submitting.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<p align="center">
+  <sub>Built with NestJS, React, TipTap, and PostgreSQL.</sub><br/>
+  <sub>If you find DocMesh useful, please consider giving it a star.</sub>
+</p>

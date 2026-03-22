@@ -1,0 +1,43 @@
+.content-editor-page {
+  max-width: 900px;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.editor-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.editor-meta {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.editor-meta .form-group input,
+.editor-meta .form-group select {
+  width: 100%;
+}
+
+.meta-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.meta-row .form-group {
+  flex: 1;
+}
