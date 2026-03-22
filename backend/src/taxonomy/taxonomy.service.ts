@@ -170,7 +170,7 @@ export class TaxonomyService {
 
     // Faceted filters
     if (dto.contentType) {
-      qb = qb.andWhere('c.content_type = :contentType', { contentType: dto.contentType });
+      qb = qb.andWhere('c.type = :contentType', { contentType: dto.contentType });
     }
     if (dto.status) {
       qb = qb.andWhere('c.status = :status', { status: dto.status });
@@ -209,10 +209,10 @@ export class TaxonomyService {
   private async buildFacets(orgId: string, dto: SearchDto) {
     const typeFacets = await this.contentRepo
       .createQueryBuilder('c')
-      .select('c.content_type', 'value')
+      .select('c.type', 'value')
       .addSelect('COUNT(*)', 'count')
       .where('c.organization_id = :orgId', { orgId })
-      .groupBy('c.content_type')
+      .groupBy('c.type')
       .getRawMany();
 
     const statusFacets = await this.contentRepo

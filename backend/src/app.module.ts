@@ -15,6 +15,7 @@ import { WorkflowsModule } from './workflows/workflows.module';
 import { LocalizationModule } from './localization/localization.module';
 import { AccessControlModule } from './access-control/access-control.module';
 import { TaxonomyModule } from './taxonomy/taxonomy.module';
+import { IntegrationsModule } from './integrations/integrations.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { TaxonomyModule } from './taxonomy/taxonomy.module';
     LocalizationModule,
     AccessControlModule,
     TaxonomyModule,
+    IntegrationsModule,
   ],
 })
 export class AppModule {}
