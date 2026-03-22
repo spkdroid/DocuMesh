@@ -10,6 +10,7 @@ import { PublicationsModule } from './publications/publications.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { ReuseModule } from './reuse/reuse.module';
 import { MapsModule } from './maps/maps.module';
+import { VersioningModule } from './versioning/versioning.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { MapsModule } from './maps/maps.module';
     DeliveryModule,
     ReuseModule,
     MapsModule,
+    VersioningModule,
   ],
 })
 export class AppModule {}
