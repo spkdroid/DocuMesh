@@ -1,5 +1,9 @@
 # DocMesh
 
+<p align="center">
+  <img src="web/public/docmesh.svg" alt="DocMesh" width="100" />
+</p>
+
 **An open-source Component Content Management System (CCMS)**
 
 DocMesh helps developers, technical writers, and product teams manage documentation as reusable, structured DITA components. It exposes everything through a REST API, so you can power in-app help, developer docs, support portals, knowledge bases, or any application that needs structured content delivered across channels.
