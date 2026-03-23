@@ -338,6 +338,111 @@ export class WorkflowsService {
     });
   }
 
+  async getAuditDashboard(
+    orgId: string,
+    opts: {
+      entityType?: string;
+      entityId?: string;
+      action?: string;
+      userId?: string;
+      fromDate?: string;
+      toDate?: string;
+      page?: number;
+      limit?: number;
+    },
+  ) {
+    const page = opts.page || 1;
+    const limit = Math.min(opts.limit || 50, 200);
+
+    const qb = this.auditRepo
+      .createQueryBuilder('a')
+      .where('a.organization_id = :orgId', { orgId });
+
+    if (opts.entityType) {
+      qb.andWhere('a.entity_type = :entityType', { entityType: opts.entityType });
+    }
+    if (opts.entityId) {
+      qb.andWhere('a.entity_id = :entityId', { entityId: opts.entityId });
+    }
+    if (opts.action) {
+      qb.andWhere('a.action = :action', { action: opts.action });
+    }
+    if (opts.userId) {
+      qb.andWhere('a.user_id = :userId', { userId: opts.userId });
+    }
+    if (opts.fromDate) {
+      qb.andWhere('a.created_at >= :fromDate', { fromDate: new Date(opts.fromDate) });
+    }
+    if (opts.toDate) {
+      qb.andWhere('a.created_at <= :toDate', { toDate: new Date(opts.toDate) });
+    }
+
+    qb.orderBy('a.created_at', 'DESC');
+    qb.skip((page - 1) * limit).take(limit);
+
+    const [items, total] = await qb.getManyAndCount();
+    return { items, total, page, limit };
+  }
+
+  async getAuditStats(orgId: string) {
+    const totalEntries = await this.auditRepo.count({
+      where: { organizationId: orgId },
+    });
+
+    const last24h = new Date();
+    last24h.setHours(last24h.getHours() - 24);
+    const recentCount = await this.auditRepo
+      .createQueryBuilder('a')
+      .where('a.organization_id = :orgId', { orgId })
+      .andWhere('a.created_at >= :since', { since: last24h })
+      .getCount();
+
+    const actionCounts = await this.auditRepo
+      .createQueryBuilder('a')
+      .select('a.action', 'action')
+      .addSelect('COUNT(*)', 'count')
+      .where('a.organization_id = :orgId', { orgId })
+      .groupBy('a.action')
+      .getRawMany();
+
+    return { totalEntries, recentCount, actionCounts };
+  }
+
+  async exportAuditTrail(
+    orgId: string,
+    format: 'json' | 'csv',
+    opts: { entityType?: string; fromDate?: string; toDate?: string },
+  ) {
+    const qb = this.auditRepo
+      .createQueryBuilder('a')
+      .where('a.organization_id = :orgId', { orgId });
+
+    if (opts.entityType) {
+      qb.andWhere('a.entity_type = :entityType', { entityType: opts.entityType });
+    }
+    if (opts.fromDate) {
+      qb.andWhere('a.created_at >= :fromDate', { fromDate: new Date(opts.fromDate) });
+    }
+    if (opts.toDate) {
+      qb.andWhere('a.created_at <= :toDate', { toDate: new Date(opts.toDate) });
+    }
+    qb.orderBy('a.created_at', 'DESC').take(5000);
+
+    const entries = await qb.getMany();
+
+    if (format === 'csv') {
+      const header = 'id,entityType,entityId,action,userId,fromState,toState,createdAt\n';
+      const rows = entries
+        .map(
+          (e) =>
+            `${e.id},${e.entityType},${e.entityId},${e.action},${e.userId},${e.fromState || ''},${e.toState || ''},${e.createdAt.toISOString()}`,
+        )
+        .join('\n');
+      return header + rows;
+    }
+    return entries;
+  }
+
   // === Notifications ===
   async createNotification(
     orgId: string,

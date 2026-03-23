@@ -16,6 +16,9 @@ import { LocalizationModule } from './localization/localization.module';
 import { AccessControlModule } from './access-control/access-control.module';
 import { TaxonomyModule } from './taxonomy/taxonomy.module';
 import { IntegrationsModule } from './integrations/integrations.module';
+import { SsoModule } from './sso/sso.module';
+import { TemplatesModule } from './templates/templates.module';
+import { QualityModule } from './quality/quality.module';
 
 @Module({
   imports: [
@@ -50,6 +53,9 @@ import { IntegrationsModule } from './integrations/integrations.module';
     AccessControlModule,
     TaxonomyModule,
     IntegrationsModule,
+    SsoModule,
+    TemplatesModule,
+    QualityModule,
   ],
 })
 export class AppModule {}

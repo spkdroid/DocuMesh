@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ContentItem } from './entities/content-item.entity';
+import { ContentItem, ContentStatus } from './entities/content-item.entity';
 import { ContentVersion } from './entities/content-version.entity';
 import { RelatedLink } from './entities/related-link.entity';
 import { TaskStep } from './entities/task-step.entity';
@@ -46,6 +46,8 @@ export class ContentService {
       locale: dto.locale || 'en',
       parentId: dto.parentId || null,
       sortOrder: dto.sortOrder || 0,
+      reviewByDate: dto.reviewByDate ? new Date(dto.reviewByDate) : null,
+      autoArchiveOnExpiry: dto.autoArchiveOnExpiry || false,
       createdBy: userId,
       updatedBy: userId,
     });
@@ -134,6 +136,8 @@ export class ContentService {
     if (dto.status !== undefined) item.status = dto.status;
     if (dto.locale !== undefined) item.locale = dto.locale;
     if (dto.sortOrder !== undefined) item.sortOrder = dto.sortOrder;
+    if (dto.reviewByDate !== undefined) item.reviewByDate = dto.reviewByDate ? new Date(dto.reviewByDate) : null;
+    if (dto.autoArchiveOnExpiry !== undefined) item.autoArchiveOnExpiry = dto.autoArchiveOnExpiry;
     item.updatedBy = userId;
 
     const saved = await this.contentRepo.save(item);
@@ -226,5 +230,88 @@ export class ContentService {
         }),
       );
     }
+  }
+
+  // === Content Expiry & Staleness ===
+
+  async getExpiringContent(orgId: string, daysAhead = 30) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() + daysAhead);
+
+    return this.contentRepo
+      .createQueryBuilder('c')
+      .where('c.organization_id = :orgId', { orgId })
+      .andWhere('c.review_by_date IS NOT NULL')
+      .andWhere('c.review_by_date <= :cutoff', { cutoff })
+      .andWhere('c.status != :archived', { archived: 'archived' })
+      .orderBy('c.review_by_date', 'ASC')
+      .getMany();
+  }
+
+  async getStaleContent(orgId: string, staleDays = 90) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - staleDays);
+
+    return this.contentRepo
+      .createQueryBuilder('c')
+      .where('c.organization_id = :orgId', { orgId })
+      .andWhere('c.updated_at < :cutoff', { cutoff })
+      .andWhere('c.status != :archived', { archived: 'archived' })
+      .orderBy('c.updated_at', 'ASC')
+      .getMany();
+  }
+
+  async getStalenessStats(orgId: string) {
+    const now = new Date();
+
+    const expiredCount = await this.contentRepo
+      .createQueryBuilder('c')
+      .where('c.organization_id = :orgId', { orgId })
+      .andWhere('c.review_by_date IS NOT NULL')
+      .andWhere('c.review_by_date < :now', { now })
+      .andWhere('c.status != :archived', { archived: 'archived' })
+      .getCount();
+
+    const expiringSoonDate = new Date();
+    expiringSoonDate.setDate(expiringSoonDate.getDate() + 30);
+    const expiringSoonCount = await this.contentRepo
+      .createQueryBuilder('c')
+      .where('c.organization_id = :orgId', { orgId })
+      .andWhere('c.review_by_date IS NOT NULL')
+      .andWhere('c.review_by_date >= :now', { now })
+      .andWhere('c.review_by_date <= :soon', { soon: expiringSoonDate })
+      .andWhere('c.status != :archived', { archived: 'archived' })
+      .getCount();
+
+    const stale90 = new Date();
+    stale90.setDate(stale90.getDate() - 90);
+    const staleCount = await this.contentRepo
+      .createQueryBuilder('c')
+      .where('c.organization_id = :orgId', { orgId })
+      .andWhere('c.updated_at < :cutoff', { cutoff: stale90 })
+      .andWhere('c.status != :archived', { archived: 'archived' })
+      .getCount();
+
+    const totalCount = await this.contentRepo.count({
+      where: { organizationId: orgId },
+    });
+
+    return { totalCount, expiredCount, expiringSoonCount, staleCount };
+  }
+
+  async autoArchiveExpired(orgId: string) {
+    const now = new Date();
+    const result = await this.contentRepo
+      .createQueryBuilder()
+      .update(ContentItem)
+      .set({ status: ContentStatus.ARCHIVED })
+      .where('organization_id = :orgId', { orgId })
+      .andWhere('review_by_date IS NOT NULL')
+      .andWhere('review_by_date < :now', { now })
+      .andWhere('auto_archive_on_expiry = true')
+      .andWhere('status != :archived', { archived: 'archived' })
+      .execute();
+
+    return { archivedCount: result.affected || 0 };
   }
 }

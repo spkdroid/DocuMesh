@@ -8,6 +8,10 @@ import ContentEditor from './pages/ContentEditor';
 import Publications from './pages/Publications';
 import Reviews from './pages/Reviews';
 import Team from './pages/Team';
+import Templates from './pages/Templates';
+import Snippets from './pages/Snippets';
+import AuditLog from './pages/AuditLog';
+import Quality from './pages/Quality';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -36,6 +40,10 @@ export default function App() {
         <Route path="publications" element={<Publications />} />
         <Route path="reviews" element={<Reviews />} />
         <Route path="team" element={<Team />} />
+        <Route path="templates" element={<Templates />} />
+        <Route path="snippets" element={<Snippets />} />
+        <Route path="audit" element={<AuditLog />} />
+        <Route path="quality" element={<Quality />} />
       </Route>
     </Routes>
   );

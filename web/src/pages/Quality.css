@@ -1,0 +1,39 @@
+.quality-page { padding: 0; }
+.quality-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.quality-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  text-align: center;
+  padding: 1rem;
+}
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary, #2563eb);
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #666);
+}
+.score-badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.score-good { color: #16a34a; }
+.score-good .stat-value { color: #16a34a; }
+.score-ok { color: #ca8a04; }
+.score-ok .stat-value { color: #ca8a04; }
+.score-bad { color: #dc2626; }
+.score-bad .stat-value { color: #dc2626; }
+.text-danger { color: #dc2626; font-weight: 600; }

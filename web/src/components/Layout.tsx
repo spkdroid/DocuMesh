@@ -40,6 +40,22 @@ export default function Layout() {
             <span className="nav-icon">&#128101;</span>
             Team &amp; Access
           </NavLink>
+          <NavLink to="/templates" className="nav-item">
+            <span className="nav-icon">&#128196;</span>
+            Templates
+          </NavLink>
+          <NavLink to="/snippets" className="nav-item">
+            <span className="nav-icon">&#9998;</span>
+            Snippets
+          </NavLink>
+          <NavLink to="/quality" className="nav-item">
+            <span className="nav-icon">&#9733;</span>
+            Quality
+          </NavLink>
+          <NavLink to="/audit" className="nav-item">
+            <span className="nav-icon">&#128270;</span>
+            Audit Log
+          </NavLink>
         </nav>
 
         <div className="sidebar-footer">

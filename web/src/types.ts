@@ -152,3 +152,83 @@ export interface Permission {
   action: string;
   allowed: boolean;
 }
+
+/* ── Templates & Snippets ── */
+export interface ContentTemplate {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  contentType: string;
+  body: Record<string, unknown>;
+  metadata: Record<string, unknown>;
+  prolog: Record<string, unknown>;
+  ditaSections: Record<string, unknown>;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Snippet {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  category: string;
+  body: Record<string, unknown>;
+  tags: string[];
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/* ── Quality Scoring ── */
+export interface QualityScore {
+  id: string;
+  contentItemId: string;
+  overallScore: number;
+  readabilityScore: number;
+  fleschKincaidGrade: number;
+  wordCount: number;
+  avgSentenceLength: number;
+  structureScore: number;
+  completenessScore: number;
+  brokenLinks: number;
+  issues: { type: string; severity: string; message: string; field?: string }[];
+  scoredAt: string;
+}
+
+export interface QualityStats {
+  totalScored: number;
+  avgScore: number;
+  avgReadability: number;
+  totalBrokenLinks: number;
+  totalIssues: number;
+}
+
+/* ── Audit Log ── */
+export interface AuditEntry {
+  id: string;
+  entityType: string;
+  entityId: string;
+  action: string;
+  userId: string;
+  details: Record<string, unknown>;
+  fromState: string | null;
+  toState: string | null;
+  createdAt: string;
+}
+
+export interface AuditListResponse {
+  items: AuditEntry[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface StalenessStats {
+  totalCount: number;
+  expiredCount: number;
+  expiringSoonCount: number;
+  staleCount: number;
+}

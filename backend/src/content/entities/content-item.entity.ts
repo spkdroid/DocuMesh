@@ -95,6 +95,12 @@ export class ContentItem {
   @Column({ name: 'sort_order', default: 0 })
   sortOrder: number;
 
+  @Column({ name: 'review_by_date', type: 'timestamp', nullable: true })
+  reviewByDate: Date | null;
+
+  @Column({ name: 'auto_archive_on_expiry', default: false })
+  autoArchiveOnExpiry: boolean;
+
   @Column({ name: 'created_by', nullable: true })
   createdBy: string;
 

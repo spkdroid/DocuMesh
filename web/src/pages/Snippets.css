@@ -1,0 +1,66 @@
+.snippets-page { padding: 0; }
+.snippets-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.snippets-page .page-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.snippets-page .page-filters input {
+  flex: 1;
+  max-width: 400px;
+}
+.snippets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.snippet-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.snippet-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.snippet-card-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.snippet-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.tag {
+  background: var(--surface, #f0f0f0);
+  padding: 0.125rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #666);
+}
+.snippet-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+.snippet-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.snippet-form {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.snippet-form h3 { margin: 0; }

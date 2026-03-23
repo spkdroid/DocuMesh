@@ -176,6 +176,65 @@ export class WorkflowsController {
     return this.workflowsService.getAuditTrail(user.orgId, entityType, entityId);
   }
 
+  @Get('audit/dashboard')
+  @ApiOperation({ summary: 'Paginated, filterable audit log dashboard' })
+  @ApiQuery({ name: 'entityType', required: false })
+  @ApiQuery({ name: 'entityId', required: false })
+  @ApiQuery({ name: 'action', required: false })
+  @ApiQuery({ name: 'userId', required: false })
+  @ApiQuery({ name: 'fromDate', required: false })
+  @ApiQuery({ name: 'toDate', required: false })
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  getAuditDashboard(
+    @CurrentUser() user: JwtPayload,
+    @Query('entityType') entityType?: string,
+    @Query('entityId') entityId?: string,
+    @Query('action') action?: string,
+    @Query('userId') userId?: string,
+    @Query('fromDate') fromDate?: string,
+    @Query('toDate') toDate?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.workflowsService.getAuditDashboard(user.orgId, {
+      entityType,
+      entityId,
+      action,
+      userId,
+      fromDate,
+      toDate,
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+    });
+  }
+
+  @Get('audit/stats')
+  @ApiOperation({ summary: 'Audit trail statistics' })
+  getAuditStats(@CurrentUser() user: JwtPayload) {
+    return this.workflowsService.getAuditStats(user.orgId);
+  }
+
+  @Get('audit/export')
+  @ApiOperation({ summary: 'Export audit trail as CSV or JSON' })
+  @ApiQuery({ name: 'format', required: false, enum: ['json', 'csv'] })
+  @ApiQuery({ name: 'entityType', required: false })
+  @ApiQuery({ name: 'fromDate', required: false })
+  @ApiQuery({ name: 'toDate', required: false })
+  exportAuditTrail(
+    @CurrentUser() user: JwtPayload,
+    @Query('format') format?: string,
+    @Query('entityType') entityType?: string,
+    @Query('fromDate') fromDate?: string,
+    @Query('toDate') toDate?: string,
+  ) {
+    return this.workflowsService.exportAuditTrail(
+      user.orgId,
+      (format === 'csv' ? 'csv' : 'json'),
+      { entityType, fromDate, toDate },
+    );
+  }
+
   // === Notifications ===
   @Get('notifications')
   @ApiOperation({ summary: 'Get notifications for current user' })

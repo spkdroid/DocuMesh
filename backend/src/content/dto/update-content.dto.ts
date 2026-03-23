@@ -5,6 +5,8 @@ import {
   IsString,
   IsInt,
   IsArray,
+  IsBoolean,
+  IsDateString,
   ValidateNested,
 } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
@@ -62,6 +64,16 @@ export class UpdateContentDto {
   @IsOptional()
   @IsString()
   changeSummary?: string;
+
+  @ApiPropertyOptional({ example: '2025-06-01T00:00:00.000Z' })
+  @IsOptional()
+  @IsDateString()
+  reviewByDate?: string;
+
+  @ApiPropertyOptional({ example: false })
+  @IsOptional()
+  @IsBoolean()
+  autoArchiveOnExpiry?: boolean;
 
   @ApiPropertyOptional({ type: [CreateTaskStepDto] })
   @IsOptional()

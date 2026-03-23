@@ -10,7 +10,7 @@ import {
   UseGuards,
   ParseUUIDPipe,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { ContentService } from './content.service';
 import { CreateContentDto } from './dto/create-content.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
@@ -75,5 +75,39 @@ export class ContentController {
     @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.contentService.getVersions(user.orgId, id);
+  }
+
+  // === Content Expiry & Staleness ===
+
+  @Get('expiry/expiring')
+  @ApiOperation({ summary: 'Get content approaching or past review-by date' })
+  @ApiQuery({ name: 'days', required: false, description: 'Days ahead to check (default 30)' })
+  getExpiringContent(
+    @CurrentUser() user: JwtPayload,
+    @Query('days') days?: string,
+  ) {
+    return this.contentService.getExpiringContent(user.orgId, days ? parseInt(days, 10) : 30);
+  }
+
+  @Get('expiry/stale')
+  @ApiOperation({ summary: 'Get content not updated in N days' })
+  @ApiQuery({ name: 'days', required: false, description: 'Stale threshold in days (default 90)' })
+  getStaleContent(
+    @CurrentUser() user: JwtPayload,
+    @Query('days') days?: string,
+  ) {
+    return this.contentService.getStaleContent(user.orgId, days ? parseInt(days, 10) : 90);
+  }
+
+  @Get('expiry/stats')
+  @ApiOperation({ summary: 'Get staleness dashboard stats' })
+  getStalenessStats(@CurrentUser() user: JwtPayload) {
+    return this.contentService.getStalenessStats(user.orgId);
+  }
+
+  @Post('expiry/auto-archive')
+  @ApiOperation({ summary: 'Auto-archive content past review-by date' })
+  autoArchiveExpired(@CurrentUser() user: JwtPayload) {
+    return this.contentService.autoArchiveExpired(user.orgId);
   }
 }

@@ -7,6 +7,8 @@ import {
   IsUUID,
   IsInt,
   IsArray,
+  IsBoolean,
+  IsDateString,
   ValidateNested,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -152,6 +154,16 @@ export class CreateContentDto {
   @IsOptional()
   @IsInt()
   sortOrder?: number;
+
+  @ApiPropertyOptional({ example: '2025-06-01T00:00:00.000Z' })
+  @IsOptional()
+  @IsDateString()
+  reviewByDate?: string;
+
+  @ApiPropertyOptional({ example: false })
+  @IsOptional()
+  @IsBoolean()
+  autoArchiveOnExpiry?: boolean;
 
   @ApiPropertyOptional({ type: [CreateTaskStepDto] })
   @IsOptional()
