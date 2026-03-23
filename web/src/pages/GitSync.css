@@ -1,0 +1,21 @@
+.gitsync-page { padding: 2rem; }
+.gitsync-page h1 { font-size: 1.6rem; margin: 0; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+
+.form-card { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.5rem; }
+.form-card label { font-weight: 600; font-size: .85rem; }
+.form-card input, .form-card select { padding: .5rem .7rem; border: 1px solid #d0d5dd; border-radius: 6px; font-size: .9rem; }
+
+.sync-list { display: flex; flex-direction: column; gap: .8rem; }
+.sync-card { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.2rem; }
+.sync-repo { font-weight: 500; margin-bottom: .3rem; }
+.sync-meta { font-size: .85rem; color: #667085; }
+.sync-status { font-size: .82rem; color: #475569; margin-top: .3rem; }
+.provider-badge { display: inline-block; padding: .1rem .5rem; border-radius: 4px; font-size: .72rem; font-weight: 700; text-transform: uppercase; margin-right: .4rem; }
+.provider-badge.github { background: #24292e; color: #fff; }
+.provider-badge.gitlab { background: #fc6d26; color: #fff; }
+
+.sync-actions { display: flex; align-items: center; gap: .5rem; }
+.btn-link { background: none; border: none; color: #5046e5; cursor: pointer; font-size: .85rem; }
+.btn-link.danger { color: #ef4444; }
+.empty { color: #9ca3af; font-style: italic; }

@@ -1,0 +1,25 @@
+.webhooks-page { padding: 2rem; }
+.webhooks-page h1 { font-size: 1.6rem; margin: 0; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+
+.form-card { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.5rem; }
+.form-card label { font-weight: 600; font-size: .85rem; }
+.form-card input, .form-card select { padding: .5rem .7rem; border: 1px solid #d0d5dd; border-radius: 6px; font-size: .9rem; }
+
+.wh-list { display: flex; flex-direction: column; gap: .8rem; }
+.wh-card { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.2rem; }
+.wh-name { display: flex; align-items: center; gap: .4rem; font-weight: 500; }
+.wh-events { display: flex; gap: .3rem; margin-top: .4rem; flex-wrap: wrap; }
+.event-tag { background: #f3f4f6; color: #374151; padding: .1rem .5rem; border-radius: 4px; font-size: .75rem; }
+.platform-badge { padding: .15rem .5rem; border-radius: 4px; font-size: .72rem; font-weight: 700; text-transform: uppercase; }
+.platform-badge.slack { background: #4a154b; color: #fff; }
+.platform-badge.teams { background: #464eb8; color: #fff; }
+.platform-badge.custom { background: #6b7280; color: #fff; }
+.status-pill { font-size: .72rem; font-weight: 700; padding: .1rem .5rem; border-radius: 9999px; }
+.status-pill.on { background: #d1fae5; color: #065f46; }
+.status-pill.off { background: #f3f4f6; color: #6b7280; }
+
+.wh-actions { display: flex; align-items: center; gap: .5rem; }
+.btn-link { background: none; border: none; color: #5046e5; cursor: pointer; font-size: .85rem; }
+.btn-link.danger { color: #ef4444; }
+.empty { color: #9ca3af; font-style: italic; }

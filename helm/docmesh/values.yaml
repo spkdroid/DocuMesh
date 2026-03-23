@@ -1,0 +1,112 @@
+# DocMesh Helm Chart — values.yaml
+
+replicaCount:
+  backend: 2
+  web: 2
+
+image:
+  backend:
+    repository: docmesh/backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  web:
+    repository: docmesh/web
+    tag: latest
+    pullPolicy: IfNotPresent
+
+service:
+  backend:
+    type: ClusterIP
+    port: 3000
+  web:
+    type: ClusterIP
+    port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: docs.example.com
+      paths:
+        - path: /api
+          pathType: Prefix
+          service: backend
+        - path: /
+          pathType: Prefix
+          service: web
+  tls:
+    - secretName: docmesh-tls
+      hosts:
+        - docs.example.com
+
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: changeme
+    database: docmesh
+  primary:
+    persistence:
+      size: 10Gi
+
+redis:
+  enabled: true
+  auth:
+    enabled: false
+  master:
+    persistence:
+      size: 2Gi
+
+backend:
+  env:
+    DB_HOST: "{{ .Release.Name }}-postgresql"
+    DB_PORT: "5432"
+    DB_USERNAME: postgres
+    DB_PASSWORD: changeme
+    DB_NAME: docmesh
+    JWT_SECRET: changeme-jwt-secret-at-least-32-chars
+    NODE_ENV: production
+    DB_SYNCHRONIZE: "false"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+  livenessProbe:
+    httpGet:
+      path: /api/health
+      port: 3000
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /api/health
+      port: 3000
+    initialDelaySeconds: 10
+    periodSeconds: 5
+
+web:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
+    targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -22,6 +22,7 @@ import { QualityModule } from './quality/quality.module';
 import { AiModule } from './ai/ai.module';
 import { CollaborationModule } from './collaboration/collaboration.module';
 import { PublishingModule } from './publishing/publishing.module';
+import { PlatformModule } from './platform/platform.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { PublishingModule } from './publishing/publishing.module';
     AiModule,
     CollaborationModule,
     PublishingModule,
+    PlatformModule,
   ],
 })
 export class AppModule {}

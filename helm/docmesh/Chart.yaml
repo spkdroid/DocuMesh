@@ -1,0 +1,14 @@
+apiVersion: v2
+name: docmesh
+description: DocMesh — Open-source Component Content Management System
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - ccms
+  - documentation
+  - content-management
+  - dita
+home: https://github.com/your-org/docmesh
+maintainers:
+  - name: DocMesh Team

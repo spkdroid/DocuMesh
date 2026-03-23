@@ -80,6 +80,22 @@ export default function Layout() {
             <span className="nav-icon">&#128197;</span>
             Scheduled Publish
           </NavLink>
+          <NavLink to="/plugins" className="nav-item">
+            <span className="nav-icon">&#128268;</span>
+            Plugins
+          </NavLink>
+          <NavLink to="/git-sync" className="nav-item">
+            <span className="nav-icon">&#128736;</span>
+            Git Sync
+          </NavLink>
+          <NavLink to="/webhooks" className="nav-item">
+            <span className="nav-icon">&#128276;</span>
+            Webhooks
+          </NavLink>
+          <NavLink to="/analytics" className="nav-item">
+            <span className="nav-icon">&#128200;</span>
+            Analytics
+          </NavLink>
         </nav>
 
         <div className="sidebar-footer">

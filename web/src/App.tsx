@@ -18,6 +18,10 @@ import Approvals from './pages/Approvals';
 import DiscussionsPage from './pages/Discussions';
 import SiteBuilder from './pages/SiteBuilder';
 import ScheduledPublishPage from './pages/ScheduledPublish';
+import Plugins from './pages/Plugins';
+import GitSync from './pages/GitSync';
+import Webhooks from './pages/Webhooks';
+import AnalyticsPage from './pages/Analytics';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -56,6 +60,10 @@ export default function App() {
         <Route path="discussions" element={<DiscussionsPage />} />
         <Route path="site-builder" element={<SiteBuilder />} />
         <Route path="scheduled-publish" element={<ScheduledPublishPage />} />
+        <Route path="plugins" element={<Plugins />} />
+        <Route path="git-sync" element={<GitSync />} />
+        <Route path="webhooks" element={<Webhooks />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
       </Route>
     </Routes>
   );

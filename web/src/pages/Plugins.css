@@ -1,0 +1,25 @@
+.plugins-page { padding: 2rem; }
+.plugins-page h1 { font-size: 1.6rem; margin: 0; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+
+.form-card { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.5rem; }
+.form-card label { font-weight: 600; font-size: .85rem; }
+.form-card input, .form-card textarea { padding: .5rem .7rem; border: 1px solid #d0d5dd; border-radius: 6px; font-size: .9rem; }
+
+.plugin-list { display: flex; flex-direction: column; gap: .8rem; }
+.plugin-card { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.2rem; }
+.plugin-name { font-weight: 600; font-size: 1rem; }
+.plugin-ver { color: #9ca3af; font-size: .82rem; font-weight: 400; margin-left: .3rem; }
+.plugin-desc { font-size: .85rem; color: #667085; margin-top: .2rem; }
+.plugin-hooks { display: flex; gap: .3rem; margin-top: .4rem; }
+.hook-badge { background: #e0e7ff; color: #3730a3; padding: .1rem .5rem; border-radius: 9999px; font-size: .72rem; font-weight: 600; }
+
+.plugin-actions { display: flex; align-items: center; gap: .6rem; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; }
+.status-dot.active { background: #10b981; }
+.status-dot.disabled { background: #9ca3af; }
+.status-dot.error { background: #ef4444; }
+
+.btn-link { background: none; border: none; color: #5046e5; cursor: pointer; font-size: .85rem; }
+.btn-link.danger { color: #ef4444; }
+.empty { color: #9ca3af; font-style: italic; }

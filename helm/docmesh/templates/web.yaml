@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web
+  labels:
+    app.kubernetes.io/name: docmesh-web
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  {{- if not .Values.web.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount.web }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: docmesh-web
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: docmesh-web
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: web
+          image: "{{ .Values.image.web.repository }}:{{ .Values.image.web.tag }}"
+          imagePullPolicy: {{ .Values.image.web.pullPolicy }}
+          ports:
+            - containerPort: 80
+          resources:
+            {{- toYaml .Values.web.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-web
+spec:
+  type: {{ .Values.service.web.type }}
+  ports:
+    - port: {{ .Values.service.web.port }}
+      targetPort: 80
+  selector:
+    app.kubernetes.io/name: docmesh-web
+    app.kubernetes.io/instance: {{ .Release.Name }}

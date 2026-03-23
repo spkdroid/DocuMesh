@@ -339,3 +339,50 @@ export interface SiteBuildInfo {
   createdAt: string;
   completedAt: string | null;
 }
+
+/* ── Platform & Ecosystem ── */
+export interface PluginInfo {
+  id: string;
+  name: string;
+  version: string;
+  description: string;
+  source: string;
+  status: string;
+  hooks: string[];
+  config: Record<string, unknown>;
+  installedBy: string;
+  createdAt: string;
+}
+
+export interface GitSyncConfigInfo {
+  id: string;
+  provider: string;
+  repoUrl: string;
+  branch: string;
+  direction: string;
+  contentFormat: string;
+  syncPath: string;
+  enabled: boolean;
+  lastSyncAt: string | null;
+  lastSyncStatus: string;
+  createdAt: string;
+}
+
+export interface WebhookInfo {
+  id: string;
+  platform: string;
+  name: string;
+  webhookUrl: string;
+  events: string[];
+  enabled: boolean;
+  createdAt: string;
+}
+
+export interface AnalyticsDashboard {
+  totalViews: number;
+  totalSearches: number;
+  topViewed: { entityId: string; views: string }[];
+  authorStats: { authorId: string; itemCount: string }[];
+  eventBreakdown: { eventType: string; count: string }[];
+  period: string;
+}
