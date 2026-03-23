@@ -14,6 +14,8 @@ import AuditLog from './pages/AuditLog';
 import Quality from './pages/Quality';
 import AiAssist from './pages/AiAssist';
 import TranslationMemoryPage from './pages/TranslationMemory';
+import Approvals from './pages/Approvals';
+import DiscussionsPage from './pages/Discussions';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -48,6 +50,8 @@ export default function App() {
         <Route path="quality" element={<Quality />} />
         <Route path="ai" element={<AiAssist />} />
         <Route path="translation-memory" element={<TranslationMemoryPage />} />
+        <Route path="approvals" element={<Approvals />} />
+        <Route path="discussions" element={<DiscussionsPage />} />
       </Route>
     </Routes>
   );

@@ -1,0 +1,36 @@
+.approvals-page { padding: 2rem; }
+.approvals-page .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.approvals-page h1 { font-size: 1.6rem; margin: 0; }
+
+.form-card { margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: .7rem; }
+.form-card label { font-weight: 600; font-size: .85rem; }
+.form-card input,
+.form-card textarea { padding: .5rem .7rem; border: 1px solid #d0d5dd; border-radius: 6px; font-size: .9rem; }
+.form-card textarea { font-family: monospace; }
+
+.approvals-grid { display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; }
+.chain-list { display: flex; flex-direction: column; gap: .6rem; }
+.chain-card { padding: 1rem; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; transition: .15s; }
+.chain-card:hover, .chain-card.active { border-color: #5046e5; background: #f5f3ff; }
+.chain-meta { margin-top: .3rem; font-size: .82rem; color: #667085; }
+
+.chain-detail h2 { display: flex; align-items: center; gap: .5rem; font-size: 1.2rem; }
+.step-list { padding-left: 1.2rem; }
+.step-list li { margin-bottom: .8rem; padding: .5rem; border-radius: 6px; }
+.step-list li.current-step { background: #eef2ff; border-left: 3px solid #5046e5; }
+.step-header { display: flex; align-items: center; gap: .5rem; }
+.step-meta { font-size: .82rem; color: #667085; margin-top: .2rem; }
+
+.chain-actions { display: flex; gap: .5rem; margin-top: 1rem; }
+
+.badge { display: inline-block; padding: .15rem .55rem; border-radius: 9999px; font-size: .72rem; font-weight: 600; text-transform: uppercase; }
+.badge-info { background: #e0e7ff; color: #3730a3; }
+.badge-success { background: #d1fae5; color: #065f46; }
+.badge-danger { background: #fee2e2; color: #991b1b; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-muted { background: #f3f4f6; color: #6b7280; }
+
+.btn-danger { background: #ef4444; color: #fff; border: none; padding: .45rem .9rem; border-radius: 6px; cursor: pointer; }
+.btn-danger:hover { background: #dc2626; }
+
+.empty { color: #9ca3af; font-style: italic; }

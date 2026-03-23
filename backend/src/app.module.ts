@@ -20,6 +20,7 @@ import { SsoModule } from './sso/sso.module';
 import { TemplatesModule } from './templates/templates.module';
 import { QualityModule } from './quality/quality.module';
 import { AiModule } from './ai/ai.module';
+import { CollaborationModule } from './collaboration/collaboration.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { AiModule } from './ai/ai.module';
     TemplatesModule,
     QualityModule,
     AiModule,
+    CollaborationModule,
   ],
 })
 export class AppModule {}

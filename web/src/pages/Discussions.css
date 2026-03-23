@@ -1,0 +1,26 @@
+.discussions-page { padding: 2rem; }
+.discussions-page h1 { font-size: 1.6rem; margin-bottom: 1rem; }
+
+.search-bar { display: flex; gap: .5rem; margin-bottom: 1.5rem; }
+.search-bar input { flex: 1; padding: .5rem .7rem; border: 1px solid #d0d5dd; border-radius: 6px; }
+
+.thread-list { display: flex; flex-direction: column; gap: 1rem; }
+.thread-card { padding: 1rem; border: 1px solid #e5e7eb; border-radius: 8px; }
+.thread-card.resolved { opacity: .65; }
+.disc-header { display: flex; align-items: center; gap: .5rem; margin-bottom: .3rem; }
+.disc-header small { color: #9ca3af; }
+.disc-body { margin: .3rem 0 .5rem; }
+.disc-actions { display: flex; gap: .7rem; font-size: .85rem; }
+.btn-link { background: none; border: none; color: #5046e5; cursor: pointer; padding: 0; font-size: .85rem; }
+.btn-link:hover { text-decoration: underline; }
+.btn-link.danger { color: #ef4444; }
+
+.reply-card { margin-left: 1.5rem; padding: .6rem .8rem; border-left: 2px solid #e0e7ff; margin-top: .5rem; }
+.reply-form { margin-top: .5rem; margin-left: 1.5rem; }
+.reply-form textarea { width: 100%; padding: .4rem .6rem; border: 1px solid #d0d5dd; border-radius: 6px; }
+.reply-btns { display: flex; gap: .4rem; margin-top: .3rem; }
+
+.new-comment { margin-top: 2rem; display: flex; flex-direction: column; gap: .5rem; }
+.new-comment textarea { width: 100%; padding: .5rem .7rem; border: 1px solid #d0d5dd; border-radius: 6px; }
+
+.empty { color: #9ca3af; font-style: italic; }

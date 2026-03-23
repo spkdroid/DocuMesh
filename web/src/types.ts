@@ -232,3 +232,58 @@ export interface StalenessStats {
   expiringSoonCount: number;
   staleCount: number;
 }
+
+/* ── Collaboration ── */
+export interface ApprovalStep {
+  stepNumber: number;
+  title: string;
+  assigneeIds: string[];
+  requiredApprovals: number;
+  parallel: boolean;
+  status: string;
+  approvedBy: string[];
+  rejectedBy: string[];
+  completedAt: string | null;
+}
+
+export interface ApprovalChain {
+  id: string;
+  contentItemId: string;
+  title: string;
+  status: string;
+  currentStep: number;
+  steps: ApprovalStep[];
+  createdBy: string;
+  createdAt: string;
+}
+
+export interface Discussion {
+  id: string;
+  contentItemId: string;
+  body: string;
+  authorId: string;
+  parentId: string | null;
+  sectionRef: { sectionId: string; from: number; to: number } | null;
+  mentions: string[];
+  resolved: boolean;
+  createdAt: string;
+}
+
+export interface ContentLockInfo {
+  id: string;
+  contentItemId: string;
+  lockedBy: string;
+  reason: string;
+  lockType: string;
+  lockedAt: string;
+  expiresAt: string | null;
+}
+
+export interface PresenceInfo {
+  id: string;
+  userId: string;
+  userName: string;
+  contentItemId: string | null;
+  status: string;
+  lastSeen: string;
+}

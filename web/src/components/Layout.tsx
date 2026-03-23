@@ -64,6 +64,14 @@ export default function Layout() {
             <span className="nav-icon">&#127760;</span>
             Translations
           </NavLink>
+          <NavLink to="/approvals" className="nav-item">
+            <span className="nav-icon">&#9989;</span>
+            Approvals
+          </NavLink>
+          <NavLink to="/discussions" className="nav-item">
+            <span className="nav-icon">&#128172;</span>
+            Discussions
+          </NavLink>
         </nav>
 
         <div className="sidebar-footer">
