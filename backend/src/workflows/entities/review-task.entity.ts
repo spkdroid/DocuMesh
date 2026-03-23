@@ -35,7 +35,7 @@ export class ReviewTask {
   @Column({ name: 'content_item_id' })
   contentItemId: string;
 
-  @Column({ name: 'workflow_instance_id', nullable: true })
+  @Column({ name: 'workflow_instance_id', type: 'uuid', nullable: true })
   workflowInstanceId: string | null;
 
   @Column({ name: 'assignee_id' })

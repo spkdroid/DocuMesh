@@ -22,11 +22,23 @@ export default function Layout() {
         <nav className="sidebar-nav">
           <NavLink to="/dashboard" className="nav-item">
             <span className="nav-icon">&#9776;</span>
-            Dashboard
+            Content
           </NavLink>
           <NavLink to="/content/new" className="nav-item">
             <span className="nav-icon">&#43;</span>
             New Content
+          </NavLink>
+          <NavLink to="/publications" className="nav-item">
+            <span className="nav-icon">&#128218;</span>
+            Publications
+          </NavLink>
+          <NavLink to="/reviews" className="nav-item">
+            <span className="nav-icon">&#9998;</span>
+            Reviews
+          </NavLink>
+          <NavLink to="/team" className="nav-item">
+            <span className="nav-icon">&#128101;</span>
+            Team &amp; Access
           </NavLink>
         </nav>
 

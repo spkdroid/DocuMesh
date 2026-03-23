@@ -35,7 +35,7 @@ export class ContentBranch {
   @Column({ length: 500, default: '' })
   description: string;
 
-  @Column({ name: 'source_branch_id', nullable: true })
+  @Column({ name: 'source_branch_id', type: 'uuid', nullable: true })
   sourceBranchId: string | null;
 
   @Column({

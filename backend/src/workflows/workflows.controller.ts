@@ -125,6 +125,12 @@ export class WorkflowsController {
     return this.workflowsService.findReviewTasksByContent(user.orgId, contentItemId);
   }
 
+  @Get('reviews/all')
+  @ApiOperation({ summary: 'List all review tasks in current organization' })
+  allReviewTasks(@CurrentUser() user: JwtPayload) {
+    return this.workflowsService.findAllReviewTasks(user.orgId);
+  }
+
   @Get('reviews/dashboard')
   @ApiOperation({ summary: 'Review dashboard stats for current user' })
   reviewDashboard(@CurrentUser() user: JwtPayload) {

@@ -33,7 +33,7 @@ export class PublishingProfile {
   @Column({ type: 'enum', enum: OutputFormat, default: OutputFormat.HTML5 })
   outputFormat: OutputFormat;
 
-  @Column({ name: 'ditaval_profile_id', nullable: true })
+  @Column({ name: 'ditaval_profile_id', type: 'uuid', nullable: true })
   ditavalProfileId: string | null;
 
   @Column({ type: 'jsonb', default: {} })

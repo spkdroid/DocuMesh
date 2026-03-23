@@ -244,6 +244,13 @@ export class WorkflowsService {
     });
   }
 
+  async findAllReviewTasks(orgId: string) {
+    return this.taskRepo.find({
+      where: { organizationId: orgId },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   // Review Dashboard
   async getReviewDashboard(orgId: string, userId: string) {
     const pending = await this.taskRepo.count({

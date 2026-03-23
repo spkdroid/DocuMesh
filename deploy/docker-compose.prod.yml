@@ -1,0 +1,97 @@
+# DocMesh — Production Docker Compose
+# ====================================
+# This file is used by the installer (deploy/install.sh) to run DocMesh
+# in production. It differs from the development docker-compose.yml:
+#
+#   - No ports exposed for PostgreSQL/Redis (internal network only)
+#   - Redis memory limits and eviction policy
+#   - Log rotation configured
+#   - Restart policies (always)
+#   - Web listens on 127.0.0.1:8080 (behind Nginx reverse proxy)
+#   - Environment variables read from .env file
+#
+# Usage:
+#   docker compose -f docker-compose.prod.yml up --build -d
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-docmesh}
+      POSTGRES_USER: ${DB_USERNAME:-docmesh}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-docmesh}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - docmesh-internal
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redisdata:/data
+    networks:
+      - docmesh-internal
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=${DB_HOST:-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-docmesh}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME:-docmesh}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION:-7d}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - docmesh-internal
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL:-/api}
+    restart: always
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      - backend
+    networks:
+      - docmesh-internal
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+volumes:
+  pgdata:
+  redisdata:
+
+networks:
+  docmesh-internal:
+    driver: bridge

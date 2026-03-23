@@ -77,7 +77,7 @@ export class ContentItem {
   @JoinColumn({ name: 'parent_id' })
   parent: ContentItem | null;
 
-  @Column({ name: 'parent_id', nullable: true })
+  @Column({ name: 'parent_id', type: 'uuid', nullable: true })
   parentId: string | null;
 
   @OneToMany(() => ContentItem, (item) => item.parent)

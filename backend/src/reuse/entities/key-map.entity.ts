@@ -26,7 +26,7 @@ export class KeyMap {
   @Column({ name: 'key_name', length: 255 })
   keyName: string;
 
-  @Column({ name: 'target_content_id', nullable: true })
+  @Column({ name: 'target_content_id', type: 'uuid', nullable: true })
   targetContentId: string | null;
 
   @Column({ type: 'text', default: '' })

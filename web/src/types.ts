@@ -7,6 +7,13 @@ export interface User {
   organizationName: string;
 }
 
+export interface OrgUser {
+  id: string;
+  email: string;
+  displayName: string;
+  role: string;
+}
+
 export interface TaskStep {
   id: string;
   stepNumber: number;
@@ -67,4 +74,81 @@ export interface ContentListResponse {
 export interface AuthResponse {
   access_token: string;
   user: User;
+}
+
+/* ── Publications ── */
+export interface PublicationEntry {
+  id: string;
+  contentItemId: string;
+  contentItem?: ContentItem;
+  parentEntryId: string | null;
+  sortOrder: number;
+  children?: PublicationEntry[];
+}
+
+export interface Publication {
+  id: string;
+  title: string;
+  slug: string;
+  locale: string;
+  entries: PublicationEntry[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+/* ── Review Workflows ── */
+export interface ReviewTask {
+  id: string;
+  contentItemId: string;
+  contentItem?: ContentItem;
+  workflowInstanceId: string | null;
+  assigneeId: string;
+  assignedBy: string;
+  status: 'pending' | 'in_progress' | 'approved' | 'rejected' | 'completed';
+  instructions: string;
+  reviewNotes: string;
+  dueDate: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReviewComment {
+  id: string;
+  contentItemId: string;
+  reviewTaskId: string | null;
+  authorId: string;
+  body: string;
+  textRange: { from: number; to: number } | null;
+  parentCommentId: string | null;
+  resolved: boolean;
+  createdAt: string;
+}
+
+export interface Notification {
+  id: string;
+  userId: string;
+  type: string;
+  title: string;
+  message: string;
+  entityType: string | null;
+  entityId: string | null;
+  read: boolean;
+  createdAt: string;
+}
+
+/* ── Access Control ── */
+export interface UserGroup {
+  id: string;
+  name: string;
+  description: string;
+  members?: OrgUser[];
+  createdAt: string;
+}
+
+export interface Permission {
+  id: string;
+  role: string;
+  resource: string;
+  action: string;
+  allowed: boolean;
 }

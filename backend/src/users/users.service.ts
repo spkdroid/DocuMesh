@@ -24,6 +24,13 @@ export class UsersService {
     });
   }
 
+  async findByOrgId(orgId: string): Promise<User[]> {
+    return this.usersRepo.find({
+      where: { organizationId: orgId },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   async create(data: Partial<User>): Promise<User> {
     const user = this.usersRepo.create(data);
     return this.usersRepo.save(user);

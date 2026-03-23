@@ -38,10 +38,10 @@ export class MapEntry {
   @JoinColumn({ name: 'content_item_id' })
   contentItem: ContentItem | null;
 
-  @Column({ name: 'content_item_id', nullable: true })
+  @Column({ name: 'content_item_id', type: 'uuid', nullable: true })
   contentItemId: string | null;
 
-  @Column({ name: 'ref_map_id', nullable: true })
+  @Column({ name: 'ref_map_id', type: 'uuid', nullable: true })
   refMapId: string | null;
 
   @Column({
@@ -71,7 +71,7 @@ export class MapEntry {
   @JoinColumn({ name: 'parent_entry_id' })
   parentEntry: MapEntry | null;
 
-  @Column({ name: 'parent_entry_id', nullable: true })
+  @Column({ name: 'parent_entry_id', type: 'uuid', nullable: true })
   parentEntryId: string | null;
 
   @OneToMany(() => MapEntry, (entry) => entry.parentEntry)

@@ -44,7 +44,7 @@ export class Release {
   })
   status: ReleaseStatus;
 
-  @Column({ name: 'baseline_id', nullable: true })
+  @Column({ name: 'baseline_id', type: 'uuid', nullable: true })
   baselineId: string | null;
 
   @Column({ name: 'target_date', type: 'date', nullable: true })

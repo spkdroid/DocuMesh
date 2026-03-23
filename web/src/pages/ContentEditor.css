@@ -146,3 +146,219 @@
 .step-card .form-group textarea {
   resize: vertical;
 }
+
+/* Review panel */
+.btn-review {
+  background: var(--color-warning);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-review:hover { background: #d97706; }
+
+.review-panel {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.review-panel h3 { font-size: 16px; margin-bottom: 4px; }
+.review-panel-form { display: flex; flex-direction: column; gap: 10px; }
+.review-panel-form .form-group input,
+.review-panel-form .form-group textarea { width: 100%; }
+
+.review-status-banner {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #92400e;
+}
+
+/* Comments panel */
+.comments-panel {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+.comment-compose { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.comment-compose textarea { width: 100%; resize: vertical; }
+.comment-list { display: flex; flex-direction: column; gap: 10px; }
+.comment-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.comment-item.resolved { opacity: 0.6; }
+.comment-header { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; }
+.comment-author { font-weight: 600; font-size: 13px; }
+.comment-time { font-size: 12px; }
+.comment-body { font-size: 14px; margin-bottom: 8px; line-height: 1.5; }
+
+/* DITA type badge */
+.dita-type-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+/* DITA tag styling */
+.dita-tag {
+  display: inline-block;
+  background: #eff6ff;
+  color: #2563eb;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #bfdbfe;
+  font-weight: 600;
+}
+
+.dita-tag-inline {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 11px;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+/* DITA Structure tab */
+.dita-structure {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dita-section {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.dita-section.required {
+  border-left: 3px solid var(--color-primary);
+}
+
+.dita-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--color-bg);
+  cursor: pointer;
+  user-select: none;
+}
+
+.dita-section-header:hover {
+  background: #f1f5f9;
+}
+
+.dita-section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dita-section-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.dita-required {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-danger);
+  font-weight: 600;
+  background: #fef2f2;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.section-toggle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  width: 20px;
+  text-align: center;
+}
+
+.dita-section-body {
+  padding: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.dita-section-hint {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* XML Preview */
+.xml-preview {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.xml-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.xml-preview-header .dita-tag-inline {
+  background: #334155;
+  color: #94a3b8;
+}
+
+.xml-code {
+  padding: 16px;
+  margin: 0;
+  overflow-x: auto;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 300px;
+  max-height: 600px;
+  overflow-y: auto;
+  white-space: pre;
+  tab-size: 2;
+}
+
+/* Collapsible meta section */
+.editor-meta .dita-section-header {
+  margin: -20px -20px 16px -20px;
+  padding: 12px 20px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.editor-meta .dita-section-header + .form-group {
+  margin-top: 0;
+}

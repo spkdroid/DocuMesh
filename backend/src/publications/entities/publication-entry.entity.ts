@@ -35,7 +35,7 @@ export class PublicationEntry {
   @JoinColumn({ name: 'parent_entry_id' })
   parentEntry: PublicationEntry | null;
 
-  @Column({ name: 'parent_entry_id', nullable: true })
+  @Column({ name: 'parent_entry_id', type: 'uuid', nullable: true })
   parentEntryId: string | null;
 
   @OneToMany(() => PublicationEntry, (entry) => entry.parentEntry)

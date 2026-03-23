@@ -50,10 +50,10 @@ export class AuditEntry {
   @Column({ type: 'jsonb', default: {} })
   details: Record<string, unknown>;
 
-  @Column({ name: 'from_state', length: 100, nullable: true })
+  @Column({ name: 'from_state', type: 'varchar', length: 100, nullable: true })
   fromState: string | null;
 
-  @Column({ name: 'to_state', length: 100, nullable: true })
+  @Column({ name: 'to_state', type: 'varchar', length: 100, nullable: true })
   toState: string | null;
 
   @CreateDateColumn({ name: 'created_at' })

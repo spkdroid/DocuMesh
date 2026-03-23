@@ -44,7 +44,7 @@ export class TaskStep {
   @JoinColumn({ name: 'parent_step_id' })
   parentStep: TaskStep | null;
 
-  @Column({ name: 'parent_step_id', nullable: true })
+  @Column({ name: 'parent_step_id', type: 'uuid', nullable: true })
   parentStepId: string | null;
 
   @OneToMany(() => TaskStep, (step) => step.parentStep)

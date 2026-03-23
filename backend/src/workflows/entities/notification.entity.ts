@@ -44,10 +44,10 @@ export class Notification {
   @Column({ type: 'text', default: '' })
   message: string;
 
-  @Column({ name: 'entity_type', length: 100, nullable: true })
+  @Column({ name: 'entity_type', type: 'varchar', length: 100, nullable: true })
   entityType: string | null;
 
-  @Column({ name: 'entity_id', nullable: true })
+  @Column({ name: 'entity_id', type: 'uuid', nullable: true })
   entityId: string | null;
 
   @Column({ default: false })
