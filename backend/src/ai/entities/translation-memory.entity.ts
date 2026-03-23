@@ -34,13 +34,13 @@ export class TranslationMemory {
   @Column({ type: 'text', name: 'target_text' })
   targetText: string;
 
-  @Column({ name: 'content_item_id', nullable: true })
+  @Column({ name: 'content_item_id', type: 'uuid', nullable: true })
   contentItemId: string | null;
 
   @Column({ type: 'int', default: 100 })
   matchScore: number;
 
-  @Column({ name: 'created_by', nullable: true })
+  @Column({ name: 'created_by', type: 'varchar', nullable: true })
   createdBy: string;
 
   @CreateDateColumn({ name: 'created_at' })

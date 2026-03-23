@@ -68,7 +68,7 @@ export class SsoController {
   @Get('providers/:id/login')
   @ApiOperation({ summary: 'Get SSO login URL (redirect user here)' })
   async getLoginUrl(@Param('id') id: string, @Query('callback') callback: string) {
-    const provider = await this.ssoService.findProvider(null, id);
+    const provider = await this.ssoService.findProviderById(id);
     if (provider.type === 'oidc') {
       return { url: this.ssoService.getOidcAuthUrl(provider, callback) };
     }
@@ -78,7 +78,7 @@ export class SsoController {
   @Post('callback/oidc')
   @ApiOperation({ summary: 'OIDC callback — exchange code for JWT' })
   handleOidcCallback(@Body() dto: SsoCallbackDto, @Query('callback') callback: string) {
-    return this.ssoService.handleOidcCallback(dto.state, dto.code, callback);
+    return this.ssoService.handleOidcCallback(dto.state ?? '', dto.code, callback);
   }
 
   @Post('callback/saml')

@@ -156,7 +156,7 @@ export class PresenceRecord {
   @Column({ name: 'user_name', length: 300, default: '' })
   userName: string;
 
-  @Column({ name: 'content_item_id', nullable: true })
+  @Column({ name: 'content_item_id', type: 'uuid', nullable: true })
   contentItemId: string | null;
 
   @Column({ length: 50, default: 'online' })

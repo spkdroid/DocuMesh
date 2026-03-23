@@ -185,10 +185,10 @@ export class AnalyticsEvent {
   @Column({ name: 'entity_type', length: 100, default: '' })
   entityType: string;
 
-  @Column({ name: 'entity_id', nullable: true })
+  @Column({ name: 'entity_id', type: 'varchar', nullable: true })
   entityId: string | null;
 
-  @Column({ name: 'user_id', nullable: true })
+  @Column({ name: 'user_id', type: 'uuid', nullable: true })
   userId: string | null;
 
   @Column({ type: 'jsonb', default: {} })

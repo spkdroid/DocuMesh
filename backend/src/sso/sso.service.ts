@@ -63,6 +63,14 @@ export class SsoService {
     return provider;
   }
 
+  async findProviderById(id: string) {
+    const provider = await this.providerRepo.findOne({
+      where: { id, enabled: true },
+    });
+    if (!provider) throw new NotFoundException('SSO provider not found');
+    return provider;
+  }
+
   async updateProvider(orgId: string, id: string, dto: UpdateSsoProviderDto) {
     const provider = await this.findProvider(orgId, id);
     Object.assign(provider, dto);

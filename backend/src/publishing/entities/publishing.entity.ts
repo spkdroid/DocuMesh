@@ -86,10 +86,10 @@ export class ScheduledPublish {
   @Column({ name: 'organization_id' })
   organizationId: string;
 
-  @Column({ name: 'content_item_id', nullable: true })
+  @Column({ name: 'content_item_id', type: 'uuid', nullable: true })
   contentItemId: string | null;
 
-  @Column({ name: 'publication_id', nullable: true })
+  @Column({ name: 'publication_id', type: 'uuid', nullable: true })
   publicationId: string | null;
 
   @Column({ type: 'timestamp', name: 'scheduled_at' })
@@ -186,7 +186,7 @@ export class SiteBuild {
   @Column({ name: 'publication_id' })
   publicationId: string;
 
-  @Column({ name: 'template_id', nullable: true })
+  @Column({ name: 'template_id', type: 'uuid', nullable: true })
   templateId: string | null;
 
   @Column({ type: 'enum', enum: BuildStatus, default: BuildStatus.QUEUED })

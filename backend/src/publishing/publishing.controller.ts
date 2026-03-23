@@ -11,8 +11,8 @@ import {
   Header,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiQuery, ApiOperation } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { PublishingService } from './publishing.service';
 import {
   CreateOutputTemplateDto,
