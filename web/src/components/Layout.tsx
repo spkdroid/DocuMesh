@@ -56,6 +56,14 @@ export default function Layout() {
             <span className="nav-icon">&#128270;</span>
             Audit Log
           </NavLink>
+          <NavLink to="/ai" className="nav-item">
+            <span className="nav-icon">&#129302;</span>
+            AI Assistant
+          </NavLink>
+          <NavLink to="/translation-memory" className="nav-item">
+            <span className="nav-icon">&#127760;</span>
+            Translations
+          </NavLink>
         </nav>
 
         <div className="sidebar-footer">

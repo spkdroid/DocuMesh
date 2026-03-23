@@ -19,6 +19,7 @@ import { IntegrationsModule } from './integrations/integrations.module';
 import { SsoModule } from './sso/sso.module';
 import { TemplatesModule } from './templates/templates.module';
 import { QualityModule } from './quality/quality.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { QualityModule } from './quality/quality.module';
     SsoModule,
     TemplatesModule,
     QualityModule,
+    AiModule,
   ],
 })
 export class AppModule {}

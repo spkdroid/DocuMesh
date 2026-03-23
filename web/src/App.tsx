@@ -12,6 +12,8 @@ import Templates from './pages/Templates';
 import Snippets from './pages/Snippets';
 import AuditLog from './pages/AuditLog';
 import Quality from './pages/Quality';
+import AiAssist from './pages/AiAssist';
+import TranslationMemoryPage from './pages/TranslationMemory';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -44,6 +46,8 @@ export default function App() {
         <Route path="snippets" element={<Snippets />} />
         <Route path="audit" element={<AuditLog />} />
         <Route path="quality" element={<Quality />} />
+        <Route path="ai" element={<AiAssist />} />
+        <Route path="translation-memory" element={<TranslationMemoryPage />} />
       </Route>
     </Routes>
   );

@@ -1,0 +1,19 @@
+.tm-page { padding: 0; }
+.tm-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.tm-form, .tm-lookup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.tm-form h3, .tm-lookup h3 { margin: 0; }
+.tm-form-row {
+  display: flex;
+  gap: 0.75rem;
+}
+.tm-form-row input { flex: 1; }
