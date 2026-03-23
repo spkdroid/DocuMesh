@@ -16,6 +16,8 @@ import AiAssist from './pages/AiAssist';
 import TranslationMemoryPage from './pages/TranslationMemory';
 import Approvals from './pages/Approvals';
 import DiscussionsPage from './pages/Discussions';
+import SiteBuilder from './pages/SiteBuilder';
+import ScheduledPublishPage from './pages/ScheduledPublish';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -52,6 +54,8 @@ export default function App() {
         <Route path="translation-memory" element={<TranslationMemoryPage />} />
         <Route path="approvals" element={<Approvals />} />
         <Route path="discussions" element={<DiscussionsPage />} />
+        <Route path="site-builder" element={<SiteBuilder />} />
+        <Route path="scheduled-publish" element={<ScheduledPublishPage />} />
       </Route>
     </Routes>
   );

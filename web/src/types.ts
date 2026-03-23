@@ -287,3 +287,55 @@ export interface PresenceInfo {
   status: string;
   lastSeen: string;
 }
+
+/* ── Publishing & Delivery ── */
+export interface OutputTemplate {
+  id: string;
+  name: string;
+  format: string;
+  htmlTemplate: string;
+  cssStyles: string;
+  variables: Record<string, string>;
+  coverPageHtml: string;
+  headerHtml: string;
+  footerHtml: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ScheduledPublishItem {
+  id: string;
+  contentItemId: string | null;
+  publicationId: string | null;
+  scheduledAt: string;
+  status: string;
+  notes: string;
+  createdBy: string;
+  createdAt: string;
+}
+
+export interface CdnConfigInfo {
+  id: string;
+  provider: string;
+  baseUrl: string;
+  zoneId: string;
+  defaultTtl: number;
+  ttlOverrides: Record<string, number>;
+  enabled: boolean;
+}
+
+export interface SiteBuildInfo {
+  id: string;
+  publicationId: string;
+  templateId: string | null;
+  status: string;
+  theme: string;
+  outputUrl: string;
+  fileCount: number;
+  totalSizeBytes: number;
+  buildLog: { timestamp: string; message: string }[];
+  builtBy: string;
+  createdAt: string;
+  completedAt: string | null;
+}

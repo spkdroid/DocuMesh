@@ -72,6 +72,14 @@ export default function Layout() {
             <span className="nav-icon">&#128172;</span>
             Discussions
           </NavLink>
+          <NavLink to="/site-builder" className="nav-item">
+            <span className="nav-icon">&#127959;</span>
+            Site Builder
+          </NavLink>
+          <NavLink to="/scheduled-publish" className="nav-item">
+            <span className="nav-icon">&#128197;</span>
+            Scheduled Publish
+          </NavLink>
         </nav>
 
         <div className="sidebar-footer">
