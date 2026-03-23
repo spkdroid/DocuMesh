@@ -1,144 +1,106 @@
-<p align="center">
-  <img src="web/public/docmesh.svg" alt="DocMesh" width="100" />
-</p>
+# DocMesh
 
-<h1 align="center">DocMesh</h1>
+**An open-source Component Content Management System (CCMS)**
 
-<p align="center">
-  <strong>The open-source Component Content Management System</strong><br/>
-  Structure. Reuse. Publish. Deliver — at scale.
-</p>
+DocMesh helps developers, technical writers, and product teams manage documentation as reusable, structured DITA components. It exposes everything through a REST API, so you can power in-app help, developer docs, support portals, knowledge bases, or any application that needs structured content delivered across channels.
 
-<p align="center">
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white" alt="TypeScript" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/NestJS-10-E0234E?logo=nestjs&logoColor=white" alt="NestJS" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white" alt="Docker" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg" alt="PRs Welcome" /></a>
-</p>
+We built it because enterprise CCMS tools (Tridion Docs, IXIASOFT, Paligo) solve real problems — granular reuse, structured authoring, multi-channel publishing — but they're expensive, closed-source, and painful to integrate into modern workflows. DocMesh takes those same ideas and puts them in a stack you can actually run with `docker compose up`.
 
-<p align="center">
-  <a href="#quick-start">Quick Start</a> &middot;
-  <a href="#highlights">Highlights</a> &middot;
-  <a href="#everything-we-built">Features</a> &middot;
-  <a href="#architecture">Architecture</a> &middot;
-  <a href="#api-reference">API</a> &middot;
-  <a href="#deployment">Deployment</a> &middot;
-  <a href="#configuration">Configuration</a> &middot;
-  <a href="#contributing">Contributing</a>
-</p>
+**Quick links:** [Getting started](#getting-started) · [Features](#what-it-does) · [Architecture](#architecture) · [API](#api-reference) · [Deployment](#deployment) · [Configuration](#configuration) · [Contributing](#contributing)
 
 ---
 
-## What is DocMesh?
+## What it does
 
-**DocMesh** is an open-source CCMS (Component Content Management System) built for developers, technical writers, and product teams. It breaks documentation into **reusable, structured DITA components** and delivers them through a REST API — making it the backbone for in-app help systems, developer docs, customer support portals, knowledge bases, and any application that needs dynamic, multi-channel content delivery.
+**Structured content model** — Six DITA information types (topic, concept, task, reference, glossary, troubleshooting) with prolog metadata, short descriptions, body sections, and related links. Content is stored as structured JSON (ProseMirror format) and can be previewed or exported as DITA XML.
 
-Inspired by enterprise systems like SDL Tridion Docs, IXIASOFT CCMS, and Paligo — DocMesh brings the same structured authoring, content reuse, and multi-channel publishing model to an **open, modern, API-first stack**.
+**DITA structured authoring** — The editor is type-aware. When you create a task, you get sections for context, prerequisites, steps, result, post-requisites, and examples — each labeled with its DITA element tag. Concepts get a conbody. References get refbody, refsyn, and properties. Everything is collapsible, and there's a live XML preview tab.
 
-> **77 features** across 8 modules. One `docker compose up` — or use the automated installer to deploy to **AWS**, **Azure**, or **DigitalOcean**.
+**Content reuse** — Conref and conkeyref references, content fragments, key maps, variables, where-used tracking, and dependency graph analysis. Write once, reuse everywhere, and know exactly where every piece of content is used.
+
+**DITA maps and publishing** — Hierarchical maps and bookmaps with nested entries (topicref, chapter, part, appendix, frontmatter, backmatter, mapref). DITAVAL conditional profiling lets you filter content by audience, platform, or any custom attribute. Output in HTML5, PDF, or JSON.
+
+**Branching and versioning** — Every edit creates a new version automatically. You can create content branches, run three-way diffs, merge with conflict detection, tag baselines, cut releases, and roll back to any previous version.
+
+**Review workflows** — A state machine moves content through draft, in-review, published, and archived states. Assign reviewers from your team, leave inline comments, resolve or reopen threads, and track everything in a review dashboard with notifications.
+
+**Localization** — Multi-locale content with fallback chains. Import and export XLIFF for translation. Create translation jobs, hook into your TMS, and automatically detect when source content changes so translations stay in sync.
+
+**Access control** — Role-based permissions (admin, author, reviewer, viewer), user groups, folder-level access, and API key management with scoped access for external integrations.
+
+**Taxonomy and search** — Hierarchical taxonomy terms for classification. Tag content with terms. PostgreSQL full-text search with faceted filtering across type, status, locale, and custom metadata.
+
+**Integrations** — Webhooks with HMAC signing for secure event delivery. Event logging, asset management with versioning, content comparison, batch operations, and soft delete with trash and restore.
+
+**Rich block editor** — TipTap/ProseMirror editor with a full toolbar: bold, italic, underline, strikethrough, code, highlight, sub/superscript, headings (H1–H4), bullet and ordered lists, blockquotes, code blocks, horizontal rules, and full table support with add/remove rows and columns.
+
+**One-command deployment** — The entire stack (PostgreSQL, Redis, NestJS backend, React frontend + Nginx) runs as four Docker containers. For production, there's an automated installer that handles TLS certificates, firewall rules, and systemd services on AWS, Azure, or DigitalOcean.
 
 ---
 
-## Highlights
+## Getting started
 
-- **🏗️ Full DITA Content Model** — Topics, tasks, concepts, references, glossary entries, and troubleshooting as first-class types with prolog, shortdesc, body sections, and related links
-- **✏️ DITA Structured Authoring** — Type-aware editing with DITA element labels (`<conbody>`, `<prereq>`, `<steps>`, etc.), collapsible sections, and live DITA XML preview with copy-to-clipboard
-- **♻️ True Content Reuse** — conref, conkeyref, key maps, variables, content fragments, where-used tracking, and dependency graph analysis
-- **📚 DITA Maps & Publishing** — Hierarchical maps, bookmaps, nested maps, DITAVAL conditional profiling, and multi-format output (HTML5, PDF, JSON)
-- **🔀 Branching & Versioning** — Content branches, diff engine, three-way merge with conflict detection, baselines, releases, and rollback
-- **📝 Review Workflows** — Configurable state-machine workflows, reviewer assignment, inline comments, approval gates, audit trail, and notifications
-- **🌍 Localization & Translation** — Multi-locale with fallback chains, XLIFF import/export, translation jobs, TMS integration, and source change detection
-- **🔐 Enterprise Access Control** — RBAC, user groups, folder-level permissions, API key management with scoped access
-- **🏷️ Taxonomy & Search** — Hierarchical taxonomy terms, content tagging, PostgreSQL full-text search, and faceted filtering
-- **🔗 Integrations & Automation** — Webhooks with HMAC signing, event logging, asset management, content comparison, batch operations, and soft delete with trash
-- **✏️ Rich Block Editor** — TipTap/ProseMirror with tables, highlights, sub/superscript, placeholders, and structured authoring extensions
-- **🐳 One-Command Deploy** — Full stack (PostgreSQL, Redis, NestJS, React + Nginx) via Docker Compose, with automated cloud installers for AWS, Azure, and DigitalOcean
+You'll need [Docker](https://docs.docker.com/get-docker/) and Docker Compose. For local development without Docker, you'll need Node.js 20+ and PostgreSQL 16.
 
----
-
-## Quick Start
-
-### Prerequisites
-
-- [Docker](https://docs.docker.com/get-docker/) and Docker Compose
-- (For local development) Node.js 20+, PostgreSQL 16
-
-### Option 1 — Docker (recommended)
+### Docker (recommended)
 
 ```bash
 git clone https://github.com/your-username/docmesh.git
 cd docmesh
-
-# Start all services (PostgreSQL, Redis, Backend, Frontend)
 docker compose up --build
 ```
 
-Once running:
+That starts PostgreSQL, Redis, the NestJS backend, and the React frontend behind Nginx. Once it's up:
 
-| Service | URL |
-|---|---|
-| **Web UI** | http://localhost:8080 |
-| **API** | http://localhost:3000/api |
-| **Swagger Docs** | http://localhost:3000/api/docs |
+- **Web UI** — http://localhost:8080
+- **API** — http://localhost:3000/api
+- **Swagger docs** — http://localhost:3000/api/docs
 
-### Option 2 — Automated Cloud Installer
+### Cloud installer
 
-Deploy to any cloud server with a single command:
+If you have a server (EC2, Azure VM, Droplet, etc.) and a domain pointed at it:
 
 ```bash
-# Download the installer
 curl -fsSL https://raw.githubusercontent.com/your-username/docmesh/master/deploy/install.sh -o install.sh
 chmod +x install.sh
-
-# Run with your domain
 sudo ./install.sh --domain docs.yourcompany.com --email admin@yourcompany.com
 ```
 
-The installer automatically provisions Docker, PostgreSQL, Redis, TLS certificates (Let's Encrypt), and an Nginx reverse proxy. See [Deployment](#deployment) for full cloud guides.
+This installs Docker, generates secure passwords, configures Nginx with a free Let's Encrypt TLS certificate, and starts everything. More details in [Deployment](#deployment).
 
-### Option 3 — Local Development
+### Local development
+
+If you want to run the backend and frontend separately (with hot reload):
 
 ```bash
 git clone https://github.com/your-username/docmesh.git
 cd docmesh
-```
 
-**Start the database:**
-
-```bash
+# Start just the databases
 docker compose up postgres redis -d
-```
 
-**Start the backend:**
-
-```bash
+# In one terminal — backend
 cd backend
 npm install
 npm run start:dev
-# API available at http://localhost:3000/api
-```
+# API at http://localhost:3000/api
 
-**Start the frontend:**
-
-```bash
+# In another terminal — frontend
 cd web
 npm install
 npm run dev
-# UI available at http://localhost:5173
+# UI at http://localhost:5173
 ```
 
 ---
 
-## Project Structure
+## Project structure
 
 ```
 docmesh/
 ├── backend/                 # NestJS API server
 │   ├── src/
-│   │   ├── auth/            # Authentication (JWT, register, login)
+│   │   ├── auth/            # JWT authentication, register, login
 │   │   ├── content/         # Content CRUD, versioning, DITA sections
 │   │   ├── delivery/        # Public content delivery API
 │   │   ├── maps/            # DITA Maps, MapEntries, DITAVAL profiles
@@ -154,163 +116,133 @@ docmesh/
 │   │   ├── integrations/    # Webhooks, API keys, assets, trash
 │   │   └── common/          # Guards, decorators, utilities
 │   └── Dockerfile
-├── web/                     # React + TipTap frontend
+├── web/                     # React frontend
 │   ├── src/
-│   │   ├── components/      # Editor, Layout, DITA toolbar
+│   │   ├── components/      # TipTap editor, layout shell
 │   │   ├── pages/           # Dashboard, ContentEditor, Publications,
 │   │   │                    # Reviews, Team, Login, Register
 │   │   └── contexts/        # Auth context
 │   └── Dockerfile
 ├── deploy/                  # Deployment automation
-│   ├── install.sh           # Universal cloud installer (Bash)
-│   ├── docker-compose.prod.yml  # Production Docker Compose
-│   ├── nginx-ssl.conf       # Nginx + TLS template
+│   ├── install.sh           # Cloud installer script
+│   ├── docker-compose.prod.yml
+│   ├── nginx-ssl.conf
 │   └── README-DEPLOY.md     # Detailed deployment guide
-├── docker-compose.yml       # Local development orchestration
-├── .env.example             # Environment variable template
-└── ARCHITECTURE_ROADMAP.md  # Architecture decision document
+├── docker-compose.yml       # Development orchestration
+├── .env.example             # Environment template
+└── ARCHITECTURE_ROADMAP.md
 ```
 
 ---
 
-## Tech Stack
+## Tech stack
 
 | Layer | Technology |
 |---|---|
-| Backend | **NestJS 10** (TypeScript 5.x) |
-| Database | **PostgreSQL 16** (JSONB for content bodies, full-text search) |
-| ORM | **TypeORM 0.3** |
-| Auth | **Passport + JWT** (org-scoped, RBAC) |
-| Cache | **Redis 7** |
-| Frontend | **React 18 + TipTap** (ProseMirror-based DITA editor) |
-| Build | **Vite 5** |
-| Containerization | **Docker + Docker Compose** |
-| Reverse Proxy | **Nginx** (SPA routing + API proxy + TLS) |
+| Backend | NestJS 10 (TypeScript 5.x) |
+| Database | PostgreSQL 16 — JSONB for content bodies, full-text search |
+| ORM | TypeORM 0.3 |
+| Auth | Passport + JWT, org-scoped with RBAC |
+| Cache | Redis 7 |
+| Frontend | React 18 + TipTap (ProseMirror-based editor) |
+| Build | Vite 5 |
+| Containers | Docker + Docker Compose |
+| Reverse proxy | Nginx (SPA routing, API proxy, TLS termination) |
 
 ---
 
-## Everything We Built
+## API reference
 
-DocMesh ships **77 features** across 8 phases:
+All authenticated endpoints require a `Bearer` token in the `Authorization` header. Register at `POST /api/auth/register` to get started. Full Swagger UI is at `/api/docs`.
 
-### Phase 1 — Foundation
-Content model (6 DITA types), CRUD API, automatic version history, JWT auth with org scoping, TipTap rich text editor, content delivery API, publications with hierarchical entries, Swagger docs, Docker Compose.
-
-### Phase 2 — Content Reuse & Structure
-Conref/conkeyref content references (embed, link, conref types), where-used tracking, dependency graph, DITA maps (MAP, BOOKMAP), map entries (TOPICREF, CHAPTER, PART, APPENDIX, FRONTMATTER, BACKMATTER, MAPREF), DITAVAL conditional profiling, content variables, key maps, content fragments.
-
-### Phase 3 — Publishing & Output
-Publishing profiles, multi-format output (HTML5, PDF, JSON), DITAVAL filtering at publish time, hierarchical publication trees with ordered entries, public delivery API with locale/platform filtering.
-
-### Phase 4 — Branching & Versioning
-Content branches (create, merge, delete), three-way diff engine, merge with conflict detection, baselines, releases, rollback, version comparison.
-
-### Phase 5 — Review Workflows & Collaboration
-State-machine workflows (draft → in_review → published → archived), reviewer assignment from org members, inline comments with resolve/reopen, approval gates, review task dashboard, real-time notifications, audit trail.
-
-### Phase 6 — Localization & Translation
-Multi-locale content with fallback chains, XLIFF import/export, translation jobs, TMS integration hooks, source change detection, locale-aware delivery.
-
-### Phase 7 — Taxonomy, Search & Access Control
-Hierarchical taxonomy terms, content tagging, PostgreSQL full-text search, faceted filtering, RBAC (admin/author/reviewer/viewer), user groups, folder-level permissions, API key management with scoped access.
-
-### Phase 8 — Integrations & Automation
-Webhooks with HMAC signing, event logging, asset management (upload, metadata, versioning), content comparison, batch operations, soft delete with trash and restore, external integration endpoints.
-
----
-
-## API Reference
-
-All authenticated endpoints require a `Bearer` token in the `Authorization` header.
-
-### Authentication
+### Auth
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
-| `POST` | `/api/auth/register` | Register user + org | No |
-| `POST` | `/api/auth/login` | Get access token | No |
-| `GET` | `/api/auth/profile` | Current user info | Yes |
+| `POST` | `/api/auth/register` | Register a new user and organization | No |
+| `POST` | `/api/auth/login` | Log in and get an access token | No |
+| `GET` | `/api/auth/profile` | Get current user info | Yes |
 
 ### Content
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
-| `GET` | `/api/content` | List items (filtered, paginated) | Yes |
-| `POST` | `/api/content` | Create content item | Yes |
-| `GET` | `/api/content/:id` | Get single item | Yes |
-| `PATCH` | `/api/content/:id` | Update item | Yes |
-| `DELETE` | `/api/content/:id` | Delete item | Yes |
-| `GET` | `/api/content/:id/versions` | Version history | Yes |
+| `GET` | `/api/content` | List content items (filtered, paginated) | Yes |
+| `POST` | `/api/content` | Create a content item | Yes |
+| `GET` | `/api/content/:id` | Get a single item | Yes |
+| `PATCH` | `/api/content/:id` | Update an item | Yes |
+| `DELETE` | `/api/content/:id` | Delete an item | Yes |
+| `GET` | `/api/content/:id/versions` | Get version history | Yes |
 
-### DITA Maps
+### DITA maps
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
 | `GET` | `/api/maps` | List maps | Yes |
-| `POST` | `/api/maps` | Create map (MAP/BOOKMAP) | Yes |
-| `GET` | `/api/maps/:id` | Get map with entries | Yes |
-| `POST` | `/api/maps/:id/entries` | Add map entry | Yes |
-| `PATCH` | `/api/maps/entries/:id` | Update entry | Yes |
-| `DELETE` | `/api/maps/entries/:id` | Remove entry | Yes |
+| `POST` | `/api/maps` | Create a map (MAP or BOOKMAP) | Yes |
+| `GET` | `/api/maps/:id` | Get a map with its entries | Yes |
+| `POST` | `/api/maps/:id/entries` | Add an entry to a map | Yes |
+| `PATCH` | `/api/maps/entries/:id` | Update an entry | Yes |
+| `DELETE` | `/api/maps/entries/:id` | Remove an entry | Yes |
 
 ### Publications
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
 | `GET` | `/api/publications` | List publications | Yes |
-| `POST` | `/api/publications` | Create publication | Yes |
-| `GET` | `/api/publications/:id` | Get with content tree | Yes |
-| `DELETE` | `/api/publications/:id` | Delete publication | Yes |
-| `POST` | `/api/publications/:id/entries` | Add entry | Yes |
-| `DELETE` | `/api/publications/:id/entries/:eid` | Remove entry | Yes |
+| `POST` | `/api/publications` | Create a publication | Yes |
+| `GET` | `/api/publications/:id` | Get a publication with its content tree | Yes |
+| `DELETE` | `/api/publications/:id` | Delete a publication | Yes |
+| `POST` | `/api/publications/:id/entries` | Add an entry | Yes |
+| `DELETE` | `/api/publications/:id/entries/:eid` | Remove an entry | Yes |
 
-### Review Workflows
+### Reviews
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
 | `POST` | `/api/workflows/reviews` | Submit content for review | Yes |
-| `GET` | `/api/workflows/reviews` | My review tasks | Yes |
-| `GET` | `/api/workflows/reviews/all` | All org review tasks | Yes |
-| `PATCH` | `/api/workflows/reviews/:id` | Update review (approve/reject) | Yes |
+| `GET` | `/api/workflows/reviews` | Get my review tasks | Yes |
+| `GET` | `/api/workflows/reviews/all` | Get all review tasks in my org | Yes |
+| `PATCH` | `/api/workflows/reviews/:id` | Approve or reject a review | Yes |
 | `GET` | `/api/workflows/reviews/dashboard` | Review dashboard stats | Yes |
 
-### Users & Teams
+### Users
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
-| `GET` | `/api/users` | List org members | Yes |
-| `POST` | `/api/users/invite` | Invite user to org | Yes |
+| `GET` | `/api/users` | List members in my organization | Yes |
+| `POST` | `/api/users/invite` | Invite a user to my organization | Yes |
 
-### Delivery (Public)
+### Delivery (public)
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
-| `GET` | `/api/deliver/:slug?lang=en&platform=web` | Fetch published content | No |
+| `GET` | `/api/deliver/:slug?lang=en&platform=web` | Fetch published content by slug | No |
 
-> Full interactive documentation available at `/api/docs` (Swagger UI) — **100+ endpoints** across all modules.
+There are 100+ endpoints total across all modules. The Swagger UI at `/api/docs` has the complete reference.
 
 ---
 
-## DITA Structured Authoring
+## DITA structured authoring
 
-The content editor provides **type-aware DITA structured authoring** with element-level guidance:
+The content editor adapts to the type of content you're writing. Instead of one big text box, you get the sections that the DITA spec defines for each information type:
 
-| Content Type | DITA Root | Sections |
+| Content type | Root element | Sections you'll see in the editor |
 |---|---|---|
-| **Topic** | `<topic>` | `<body>` |
-| **Concept** | `<concept>` | `<conbody>` |
-| **Task** | `<task>` | `<context>`, `<prereq>`, `<steps>`, `<result>`, `<postreq>`, `<example>` |
-| **Reference** | `<reference>` | `<refbody>`, `<refsyn>`, `<properties>` |
-| **Glossary** | `<glossentry>` | `<glossdef>` |
-| **Troubleshooting** | `<troubleshooting>` | `<condition>`, `<cause>`, `<remedy>` |
+| Topic | `<topic>` | `<body>` |
+| Concept | `<concept>` | `<conbody>` |
+| Task | `<task>` | `<context>`, `<prereq>`, `<steps>`, `<result>`, `<postreq>`, `<example>` |
+| Reference | `<reference>` | `<refbody>`, `<refsyn>`, `<properties>` |
+| Glossary | `<glossentry>` | `<glossdef>` |
+| Troubleshooting | `<troubleshooting>` | `<condition>`, `<cause>`, `<remedy>` |
 
-Each section shows its DITA XML element tag, has a contextual hint, and can be collapsed. The **DITA XML** tab provides a live preview of the generated XML with copy-to-clipboard.
+Each section is labeled with its DITA XML element name, includes a hint about what goes there, and can be collapsed when you're not working on it. There's a "DITA XML" tab that shows the generated XML for the current content, with a copy button.
 
 ---
 
-## Content Model
+## Content model
 
-DocMesh stores content as structured components:
+Content is stored as structured JSON (ProseMirror/TipTap document format). Here's what a task looks like:
 
 ```json
 {
@@ -347,9 +279,9 @@ DocMesh stores content as structured components:
 }
 ```
 
-**Content types:** `topic` · `concept` · `task` · `reference` · `glossary` · `troubleshooting`
+Six content types: `topic`, `concept`, `task`, `reference`, `glossary`, `troubleshooting`.
 
-**Statuses:** `draft` → `in_review` → `published` → `archived`
+Four statuses: `draft` → `in_review` → `published` → `archived`.
 
 ---
 
@@ -384,313 +316,170 @@ DocMesh stores content as structured components:
    Maps, Workflows)       Notifications)
 ```
 
-For a detailed architecture comparison and roadmap, see [ARCHITECTURE_ROADMAP.md](ARCHITECTURE_ROADMAP.md).
+The frontend is a React SPA served by Nginx. Nginx also reverse-proxies `/api/` requests to the NestJS backend. PostgreSQL stores everything (content bodies as JSONB, users, maps, workflows, etc.). Redis handles caching and session data.
+
+In development, the frontend runs on Vite's dev server (port 5173) and the backend runs directly on Node (port 3000). In production, both are multi-stage Docker builds — the frontend compiles to static files served by Nginx, and the backend compiles TypeScript to JavaScript and runs on `node dist/main`.
+
+For more on how the architecture was designed and why, see [ARCHITECTURE_ROADMAP.md](ARCHITECTURE_ROADMAP.md).
 
 ---
 
-## Environment Variables
+## Configuration
 
-| Variable | Default | Description |
+Copy `.env.example` to `.env` and update the values. In Docker, the compose file passes these to the containers automatically.
+
+| Variable | Default | Notes |
 |---|---|---|
-| `DB_HOST` | `localhost` | PostgreSQL host |
-| `DB_PORT` | `5432` | PostgreSQL port |
-| `DB_USERNAME` | `docmesh` | Database user |
-| `DB_PASSWORD` | `docmesh_secret` | Database password — **change in production** |
-| `DB_NAME` | `docmesh` | Database name |
-| `JWT_SECRET` | `dev-secret-change-me` | **Must change in production** — use 64+ char random string |
-| `JWT_EXPIRATION` | `7d` | Token expiry |
-| `REDIS_HOST` | `localhost` | Redis host |
-| `REDIS_PORT` | `6379` | Redis port |
-| `PORT` | `3000` | Backend listening port |
-| `NODE_ENV` | `development` | `development` or `production` |
-| `VITE_API_URL` | `http://localhost:3000/api` | API base URL (build-time, frontend) |
+| `DB_HOST` | `localhost` | Use `postgres` when running in Docker |
+| `DB_PORT` | `5432` | |
+| `DB_USERNAME` | `docmesh` | |
+| `DB_PASSWORD` | `docmesh_secret` | Change this in production |
+| `DB_NAME` | `docmesh` | |
+| `JWT_SECRET` | `dev-secret-change-me` | **Must** change in production — use a 64+ character random string |
+| `JWT_EXPIRATION` | `7d` | How long access tokens last |
+| `REDIS_HOST` | `localhost` | Use `redis` when running in Docker |
+| `REDIS_PORT` | `6379` | |
+| `PORT` | `3000` | Backend server port |
+| `NODE_ENV` | `development` | Set to `production` for deployment |
+| `VITE_API_URL` | `http://localhost:3000/api` | Build-time variable for the frontend |
 
 ---
 
 ## Deployment
 
-DocMesh includes an **automated installer** (`deploy/install.sh`) that handles provisioning on any Linux server. It works on **AWS EC2**, **Azure VMs**, **DigitalOcean Droplets**, and any Ubuntu/Debian server with SSH access.
+DocMesh ships with an automated installer (`deploy/install.sh`) that works on any Ubuntu/Debian server — AWS EC2, Azure VMs, DigitalOcean Droplets, or bare metal. It handles everything from installing Docker to configuring TLS.
+
+For the full step-by-step guide with cloud-specific instructions, see [deploy/README-DEPLOY.md](deploy/README-DEPLOY.md).
 
 ### What the installer does
 
-1. Installs Docker Engine and Docker Compose (if not present)
-2. Clones the DocMesh repository
-3. Generates secure random passwords for PostgreSQL and JWT
-4. Creates a production `.env` file
-5. Configures Nginx with TLS via Let's Encrypt (Certbot)
-6. Builds and starts all containers with `docker compose`
-7. Sets up a systemd service for auto-restart on reboot
-8. Configures UFW firewall (allows only 80, 443, 22)
+1. Updates system packages and installs dependencies
+2. Installs Docker Engine and Docker Compose
+3. Clones the repository to `/opt/docmesh`
+4. Generates cryptographically secure random passwords for PostgreSQL and JWT
+5. Creates a production `.env` with restrictive file permissions
+6. Builds and starts all containers with a hardened production compose file (no exposed database ports, log rotation, restart policies)
+7. Configures Nginx as a reverse proxy with security headers
+8. Obtains a TLS certificate from Let's Encrypt and sets up auto-renewal
+9. Configures the UFW firewall (SSH, HTTP, HTTPS only)
+10. Registers a systemd service so everything restarts on reboot
+11. Sets up a daily database backup cron (2 AM, 30-day retention)
 
-### Quick deploy (any server)
+### Usage
 
 ```bash
-# SSH into your server, then run:
-curl -fsSL https://raw.githubusercontent.com/your-username/docmesh/master/deploy/install.sh -o install.sh
-chmod +x install.sh
 sudo ./install.sh --domain docs.yourcompany.com --email admin@yourcompany.com
 ```
 
-### Installer options
-
-| Flag | Description | Required |
+| Flag | What it does | Required |
 |---|---|---|
-| `--domain` | Your domain name (e.g. `docs.example.com`) | Yes |
-| `--email` | Email for Let's Encrypt TLS certificates | Yes |
+| `--domain` | Your domain name | Yes |
+| `--email` | Email for Let's Encrypt certificates | Yes |
 | `--branch` | Git branch to deploy (default: `master`) | No |
-| `--no-tls` | Skip TLS setup (HTTP only, for testing) | No |
-| `--db-password` | Custom PostgreSQL password (auto-generated if omitted) | No |
-| `--jwt-secret` | Custom JWT secret (auto-generated if omitted) | No |
+| `--no-tls` | Skip TLS, serve over HTTP only (for testing) | No |
+| `--db-password` | Custom database password (auto-generated otherwise) | No |
+| `--jwt-secret` | Custom JWT secret (auto-generated otherwise) | No |
 
----
+### AWS (EC2)
 
-### Deploy on AWS (EC2)
-
-#### 1. Launch an EC2 instance
-
-- **AMI:** Ubuntu 22.04 LTS (or 24.04)
-- **Instance type:** `t3.small` (2 vCPU, 2 GB RAM) minimum — `t3.medium` recommended for production
-- **Storage:** 20 GB gp3 minimum
-- **Security Group rules:**
-
-| Type | Port | Source | Purpose |
-|---|---|---|---|
-| SSH | 22 | Your IP | Server access |
-| HTTP | 80 | 0.0.0.0/0 | Web + Let's Encrypt |
-| HTTPS | 443 | 0.0.0.0/0 | Web (TLS) |
-
-#### 2. Point your domain
-
-Create an **A record** in your DNS provider pointing to the EC2 **Elastic IP**:
-
-```
-docs.yourcompany.com  →  A  →  54.xxx.xxx.xxx
-```
-
-#### 3. SSH in and install
+Spin up a `t3.small` or larger running Ubuntu 22.04. Open ports 22, 80, and 443 in the security group. Attach an Elastic IP so the address doesn't change. Point your domain's A record at the Elastic IP, then SSH in and run the installer.
 
 ```bash
 ssh -i your-key.pem ubuntu@54.xxx.xxx.xxx
-
 curl -fsSL https://raw.githubusercontent.com/your-username/docmesh/master/deploy/install.sh -o install.sh
 chmod +x install.sh
 sudo ./install.sh --domain docs.yourcompany.com --email admin@yourcompany.com
 ```
 
-#### 4. Verify
+For a more resilient setup, put the instance behind an ALB, swap the containerized PostgreSQL for RDS, and store secrets in AWS Secrets Manager.
 
-```bash
-# Check all containers are running
-docker compose -f /opt/docmesh/docker-compose.prod.yml ps
+### Azure (VM)
 
-# Check logs
-docker compose -f /opt/docmesh/docker-compose.prod.yml logs -f backend
-```
-
-Open `https://docs.yourcompany.com` in your browser.
-
-#### AWS tips
-
-- Attach an **Elastic IP** so the address survives reboots
-- For high availability, put the instance behind an **ALB** (Application Load Balancer) and use **RDS PostgreSQL** instead of the containerized database
-- Use **AWS Secrets Manager** for `JWT_SECRET` and `DB_PASSWORD`
-- Enable **CloudWatch** log forwarding from Docker
-
----
-
-### Deploy on Azure (Virtual Machine)
-
-#### 1. Create a VM
-
-- **Image:** Ubuntu Server 22.04 LTS
-- **Size:** `Standard_B2s` (2 vCPU, 4 GB RAM) minimum
-- **Disk:** 32 GB Premium SSD
-- **Networking:** Create/select an NSG with:
-
-| Priority | Name | Port | Protocol | Source | Action |
-|---|---|---|---|---|---|
-| 100 | AllowSSH | 22 | TCP | Your IP | Allow |
-| 110 | AllowHTTP | 80 | TCP | Any | Allow |
-| 120 | AllowHTTPS | 443 | TCP | Any | Allow |
-
-#### 2. Point your domain
-
-Create an A record in Azure DNS or your registrar:
-
-```
-docs.yourcompany.com  →  A  →  20.xxx.xxx.xxx
-```
-
-#### 3. SSH in and install
+Create a `Standard_B2s` or larger VM running Ubuntu 22.04. Configure the NSG to allow ports 22, 80, and 443. Assign a static public IP. Point your domain at it, SSH in, and run the installer.
 
 ```bash
 ssh azureuser@20.xxx.xxx.xxx
-
 curl -fsSL https://raw.githubusercontent.com/your-username/docmesh/master/deploy/install.sh -o install.sh
 chmod +x install.sh
 sudo ./install.sh --domain docs.yourcompany.com --email admin@yourcompany.com
 ```
 
-#### 4. Verify
+For production, consider Azure Database for PostgreSQL (Flexible Server), Azure Cache for Redis, and Key Vault for secrets.
 
-```bash
-docker compose -f /opt/docmesh/docker-compose.prod.yml ps
-curl -s https://docs.yourcompany.com/api/auth/profile | head
-```
+### DigitalOcean (Droplet)
 
-#### Azure tips
-
-- Use a **Static IP** so DNS records don't break on reboot
-- For production, swap the containerized PostgreSQL for **Azure Database for PostgreSQL — Flexible Server**
-- Store secrets in **Azure Key Vault**
-- Use **Azure Monitor** for container health and log analytics
-- Consider **Azure Container Instances (ACI)** or **Azure App Service** for a managed container experience
-
----
-
-### Deploy on DigitalOcean (Droplet)
-
-#### 1. Create a Droplet
-
-- **Image:** Ubuntu 22.04 (LTS)
-- **Plan:** Basic — **$12/month** (2 GB RAM, 1 vCPU, 50 GB SSD) or **$24/month** (4 GB) for production
-- **Region:** closest to your users
-- **Authentication:** SSH key (recommended)
-- **Enable backups** (optional but recommended)
-
-#### 2. Point your domain
-
-In DigitalOcean Networking (or your registrar), create an A record:
-
-```
-docs.yourcompany.com  →  A  →  157.xxx.xxx.xxx
-```
-
-#### 3. SSH in and install
+Create a Droplet with the $12/month plan (2 GB RAM) or $24/month (4 GB) for production. Ubuntu 22.04, SSH key auth. Point your domain at the Droplet IP and run the installer.
 
 ```bash
 ssh root@157.xxx.xxx.xxx
-
 curl -fsSL https://raw.githubusercontent.com/your-username/docmesh/master/deploy/install.sh -o install.sh
 chmod +x install.sh
 ./install.sh --domain docs.yourcompany.com --email admin@yourcompany.com
 ```
 
-#### 4. Verify
+DigitalOcean also offers managed PostgreSQL ($15/month) and managed Redis ($10/month) if you want to offload database operations.
+
+### Manual deployment
+
+If you'd rather not use the installer:
 
 ```bash
-docker compose -f /opt/docmesh/docker-compose.prod.yml ps
-```
-
-Open `https://docs.yourcompany.com` in your browser.
-
-#### DigitalOcean tips
-
-- Enable **DigitalOcean Cloud Firewalls** as an additional layer (allow 22, 80, 443)
-- For production databases, use **DigitalOcean Managed PostgreSQL** ($15/month)
-- Use **DO Spaces** for asset/file storage
-- Enable **Monitoring** in the Droplet dashboard
-- Use **DigitalOcean App Platform** if you prefer a PaaS experience
-
----
-
-### Production hardening checklist
-
-After the installer finishes, review these items for a production deployment:
-
-- [ ] **Secrets** — Verify `JWT_SECRET` and `DB_PASSWORD` in `/opt/docmesh/.env` are strong random values (the installer generates them automatically)
-- [ ] **TLS** — Confirm `https://yourdomain.com` loads with a valid certificate; Certbot auto-renews via systemd timer
-- [ ] **Firewall** — Only ports 22, 80, 443 should be open (`sudo ufw status`)
-- [ ] **Backups** — Set up automated PostgreSQL backups:
-  ```bash
-  # Add to crontab (daily backup at 2 AM)
-  0 2 * * * docker exec documesh-postgres-1 pg_dump -U docmesh docmesh | gzip > /opt/docmesh/backups/docmesh-$(date +\%Y\%m\%d).sql.gz
-  ```
-- [ ] **Log rotation** — Docker logs are rotated by the json-file driver config in `docker-compose.prod.yml`
-- [ ] **Updates** — Pull latest code and rebuild:
-  ```bash
-  cd /opt/docmesh
-  git pull origin master
-  docker compose -f docker-compose.prod.yml up --build -d
-  ```
-- [ ] **Monitoring** — Set up uptime monitoring for `https://yourdomain.com/api/auth/profile` (expect 401 = healthy)
-
----
-
-### Manual deployment (without installer)
-
-If you prefer to deploy manually without the installer script:
-
-```bash
-# 1. Install Docker
+# Install Docker
 curl -fsSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
 
-# 2. Clone and configure
+# Clone and configure
 git clone https://github.com/your-username/docmesh.git /opt/docmesh
 cd /opt/docmesh
 cp .env.example .env
+# Edit .env — set strong DB_PASSWORD, JWT_SECRET, and VITE_API_URL
 
-# 3. Edit .env with production values
-#    - Set strong DB_PASSWORD and JWT_SECRET
-#    - Set VITE_API_URL to your domain
-
-# 4. Use the production compose file
-cp deploy/docker-compose.prod.yml docker-compose.prod.yml
-
-# 5. Build and start
+# Use the production compose file and start
+cp deploy/docker-compose.prod.yml .
 docker compose -f docker-compose.prod.yml up --build -d
 ```
+
+Then set up Nginx and TLS yourself — the template is in `deploy/nginx-ssl.conf`.
+
+### After deployment
+
+Things to verify once the installer finishes:
+
+- **Secrets** — Check that `/opt/docmesh/.env` has strong random values for DB_PASSWORD and JWT_SECRET
+- **TLS** — Open your domain in a browser and confirm the certificate is valid
+- **Firewall** — Run `sudo ufw status` and confirm only 22, 80, and 443 are open
+- **Backups** — The installer configures daily PostgreSQL dumps to `/opt/docmesh/backups/`. Verify with `crontab -l`.
+- **Updates** — Pull and rebuild: `cd /opt/docmesh && git pull && docker compose -f docker-compose.prod.yml up --build -d`
+- **Monitoring** — A GET to `/api/auth/profile` returning 401 means the backend is alive
 
 ---
 
 ## Roadmap
 
-### Completed
+What we're looking at next:
 
-- [x] **Phase 1 — Foundation:** Content model, CRUD, versioning, JWT auth, TipTap editor, delivery API, publications, Swagger
-- [x] **Phase 2 — Content Reuse:** Conrefs, where-used tracking, DITA maps, DITAVAL profiling, content fragments
-- [x] **Phase 3 — Publishing:** Publishing profiles, HTML5/PDF/JSON output, DITAVAL filtering
-- [x] **Phase 4 — Branching:** Branches, diff, merge, baselines, releases, rollback
-- [x] **Phase 5 — Review Workflows:** State-machine workflows, reviewer assignment, comments, notifications
-- [x] **Phase 6 — Localization:** Multi-locale, XLIFF, translation jobs, fallback chains
-- [x] **Phase 7 — Taxonomy & Access Control:** Taxonomy terms, full-text search, RBAC, API keys
-- [x] **Phase 8 — Integrations:** Webhooks, event logging, assets, batch ops, trash
-
-### Upcoming
-
-- [ ] AI-assisted authoring and content suggestions
-- [ ] Semantic search (vector embeddings)
-- [ ] Real-time collaborative editing (Yjs + CRDTs)
-- [ ] Mobile SDKs (iOS / Android)
-- [ ] DITA OT import/export
-- [ ] Plugin / extension system
-- [ ] Kubernetes Helm chart
+- AI-assisted authoring and content suggestions
+- Semantic search with vector embeddings
+- Real-time collaborative editing (Yjs + CRDTs)
+- Mobile SDKs for iOS and Android
+- DITA Open Toolkit import/export
+- Plugin and extension system
+- Kubernetes Helm chart
 
 ---
 
 ## Contributing
 
-Contributions are welcome and appreciated.
+Contributions are welcome. Fork the repo, create a feature branch, make your changes, and open a pull request. Please make sure things still build and existing tests pass before submitting.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m 'Add my feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
-
-Please ensure your code passes linting and existing tests before submitting.
+```bash
+git checkout -b feature/my-feature
+git commit -m 'Add my feature'
+git push origin feature/my-feature
+```
 
 ---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-<p align="center">
-  <sub>Built with NestJS, React, TipTap, PostgreSQL, and Docker.</sub><br/>
-  <sub>Deploy to AWS, Azure, or DigitalOcean in minutes.</sub><br/>
-  <sub>If you find DocMesh useful, please consider giving it a star.</sub>
-</p>
+MIT — see [LICENSE](LICENSE) for details.
