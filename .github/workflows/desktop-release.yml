@@ -1,0 +1,259 @@
+# -----------------------------------------------------------------------
+# DocMesh — Desktop Release (Electron)
+# Builds native desktop installers for Windows, macOS, and Linux.
+# Triggered by pushing a version tag (v*) or manually via workflow_dispatch.
+#
+# Outputs:
+#   Windows  → .exe (NSIS installer)
+#   macOS    → .dmg (universal: x64 + arm64)
+#   Linux    → .AppImage + .deb
+#
+# All artifacts are attached to a GitHub Release.
+# -----------------------------------------------------------------------
+name: Desktop Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Version tag (e.g. v0.2.0). Leave blank to use HEAD as draft."
+        required: false
+
+concurrency:
+  group: desktop-release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # create releases & upload assets
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+
+  # ── Resolve version ─────────────────────────────────────────────────
+  prepare:
+    name: Resolve version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+      tag: ${{ steps.ver.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: ver
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+          elif [[ -n "${{ github.event.inputs.tag }}" ]]; then
+            TAG="${{ github.event.inputs.tag }}"
+          else
+            TAG="v0.0.0-dev.$(git rev-parse --short HEAD)"
+          fi
+          VERSION="${TAG#v}"
+          echo "tag=$TAG"       >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+  # ── Windows ─────────────────────────────────────────────────────────
+  build-windows:
+    name: "Windows x64"
+    needs: prepare
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set version in package.json
+        shell: pwsh
+        run: |
+          $pkg = Get-Content package.json | ConvertFrom-Json
+          $pkg.version = "${{ needs.prepare.outputs.version }}"
+          $pkg | ConvertTo-Json -Depth 10 | Set-Content package.json
+
+      - name: Build Electron app
+        run: npm run electron:build
+        env:
+          VITE_API_URL: ${{ vars.DESKTOP_API_URL || '' }}
+
+      - name: Package Windows installer
+        run: npx electron-builder --win --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-windows
+          path: |
+            web/release/*.exe
+            web/release/*.exe.blockmap
+          retention-days: 14
+
+  # ── macOS ───────────────────────────────────────────────────────────
+  build-macos:
+    name: "macOS (x64 + arm64)"
+    needs: prepare
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set version in package.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json','utf8'));
+            pkg.version = '${{ needs.prepare.outputs.version }}';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+
+      - name: Build Electron app
+        run: npm run electron:build
+        env:
+          VITE_API_URL: ${{ vars.DESKTOP_API_URL || '' }}
+
+      - name: Package macOS DMG
+        run: npx electron-builder --mac --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # For code signing (configure these secrets when ready):
+          # CSC_LINK: ${{ secrets.MAC_CERT_P12_BASE64 }}
+          # CSC_KEY_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-macos
+          path: |
+            web/release/*.dmg
+            web/release/*.dmg.blockmap
+          retention-days: 14
+
+  # ── Linux ───────────────────────────────────────────────────────────
+  build-linux:
+    name: "Linux x64"
+    needs: prepare
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set version in package.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json','utf8'));
+            pkg.version = '${{ needs.prepare.outputs.version }}';
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+
+      - name: Build Electron app
+        run: npm run electron:build
+        env:
+          VITE_API_URL: ${{ vars.DESKTOP_API_URL || '' }}
+
+      - name: Package Linux installers
+        run: npx electron-builder --linux --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-linux
+          path: |
+            web/release/*.AppImage
+            web/release/*.deb
+          retention-days: 14
+
+  # ── Create GitHub Release ───────────────────────────────────────────
+  release:
+    name: Publish GitHub Release
+    needs: [prepare, build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all desktop artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: desktop-*
+          merge-multiple: true
+
+      - name: List artifacts
+        run: ls -lhR artifacts/
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          TAG="${{ needs.prepare.outputs.tag }}"
+          {
+            echo "## DocMesh Desktop $TAG"
+            echo ""
+            echo "### Downloads"
+            echo "| Platform | File |"
+            echo "|----------|------|"
+            for f in artifacts/*; do
+              name=$(basename "$f")
+              echo "| ${name##*.} | \`$name\` |"
+            done
+            echo ""
+            echo "### What's Changed"
+            echo "See [full changelog](https://github.com/${{ github.repository }}/compare/...${TAG})"
+          } > release_notes.md
+          cat release_notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.prepare.outputs.tag }}
+          name: "DocMesh ${{ needs.prepare.outputs.tag }}"
+          body_path: release_notes.md
+          draft: ${{ github.event_name == 'workflow_dispatch' }}
+          prerelease: ${{ contains(needs.prepare.outputs.tag, '-') }}
+          files: artifacts/*
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

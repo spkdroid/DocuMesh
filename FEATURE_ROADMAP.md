@@ -165,6 +165,24 @@
 
 ---
 
+### Phase 9 — Desktop Application (Electron)
+*Standalone native desktop app for Windows, macOS, and Linux.*
+
+| # | Feature | Description | Complexity |
+|---|---|---|---|
+| 9.1 | **Electron shell** | Wrap the React web app in Electron for native desktop delivery | Done |
+| 9.2 | **Windows installer (NSIS)** | Build `.exe` installer with install path selection, shortcuts | Done |
+| 9.3 | **macOS bundle (DMG)** | Build `.dmg` for macOS (x64 + Apple Silicon) | Done |
+| 9.4 | **Linux packages (AppImage/deb)** | Build `.AppImage` and `.deb` for Linux | Done |
+| 9.5 | **Custom protocol handler** | `docmesh://` protocol for SPA routing in production builds | Done |
+| 9.6 | **Auto-updater** | Check for and install updates automatically (electron-updater) | Medium |
+| 9.7 | **Native OS integration** | System tray, native notifications, file associations (.dita, .ditamap) | Medium |
+| 9.8 | **Offline mode** | Cache content locally for offline authoring, sync when reconnected | High |
+| 9.9 | **Local file system access** | Open/save DITA files directly from/to local disk | Medium |
+| 9.10 | **Code signing** | Sign binaries for Windows (EV cert) and macOS (Apple Developer ID) | Medium |
+
+---
+
 ## Summary — Feature Count by Phase
 
 | Phase | Focus Area | Features | Key Deliverable |
@@ -177,7 +195,8 @@
 | **Phase 6** | Localization & Translation | 9 | Multi-locale, TMS integration, XLIFF |
 | **Phase 7** | Access Control, Taxonomy & Search | 10 | RBAC, SSO, taxonomies, semantic search |
 | **Phase 8** | Integrations, Analytics & Advanced | 12 | Webhooks, AI authoring, plugins, asset mgmt |
-| | **Total** | **77 features** | |
+| **Phase 9** | Desktop Application (Electron) | 10 | Native apps for Windows, macOS, Linux |
+| | **Total** | **87 features** | |
 
 ---
 

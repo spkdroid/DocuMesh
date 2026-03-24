@@ -1,0 +1,40 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /backend
+    schedule:
+      interval: weekly
+    groups:
+      nestjs:
+        patterns: ["@nestjs/*"]
+      typeorm:
+        patterns: ["typeorm", "@nestjs/typeorm"]
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: weekly
+    groups:
+      react:
+        patterns: ["react", "react-dom", "@types/react*"]
+      tiptap:
+        patterns: ["@tiptap/*"]
+      electron:
+        patterns: ["electron", "electron-builder", "vite-plugin-electron*"]
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: docker
+    directory: /backend
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: docker
+    directory: /web
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

@@ -1,0 +1,111 @@
+# -----------------------------------------------------------------------
+# DocMesh CI — runs on every push / PR to main
+# Validates backend + web: lint, typecheck, unit tests, build
+# -----------------------------------------------------------------------
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+
+  # ── Backend ──────────────────────────────────────────────────────────
+  backend:
+    name: Backend — Lint / Test / Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: docmesh_test
+          POSTGRES_USER: docmesh
+          POSTGRES_PASSWORD: test_secret
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U docmesh"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USERNAME: docmesh
+      DB_PASSWORD: test_secret
+      DB_NAME: docmesh_test
+      JWT_SECRET: ci-test-jwt-secret
+      JWT_EXPIRATION: 1h
+      NODE_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm test -- --passWithNoTests --ci
+
+      - name: Build
+        run: npm run build
+
+  # ── Web ──────────────────────────────────────────────────────────────
+  web:
+    name: Web — Typecheck / Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Build web bundle
+        run: npm run build
+        env:
+          VITE_API_URL: /api
+
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: web/dist
+          retention-days: 7
